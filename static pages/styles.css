@@ -128,8 +128,8 @@ form a:hover{
     color: #A4E3FF;
 }
 /* Cards */
-.card-group .card{
-    background-color: #A4E3FF;
+ .card{
+    background-color: #A4E3FF !important;
     border: 6px solid black !important;
     border-radius: 12px !important;
 }
