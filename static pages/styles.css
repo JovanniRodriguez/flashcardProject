@@ -120,12 +120,14 @@ form a:hover{
 /* Filter Button */
 #filterButton{
     font-size: 21px;
-    border: none;
+    border: 1px solid white;
+    border-radius: 8px;
     background-color: transparent;
     color: #FFFFFF;
 }
 #filterButton:hover{
     color: #A4E3FF;
+    border-color: #A4E3FF;
 }
 /* Cards */
  .card{
