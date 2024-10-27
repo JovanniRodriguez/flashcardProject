@@ -1,0 +1,149 @@
+<!-- templates/flashdeck/signIn.html-->
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'flashdeck/css/styles.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashDeck</title>
+</head>
+
+<body>
+  <!--NAVBAR-->
+  <nav class="navbar fixed-top navbar-dark bg-black navbar-expand-lg rounded-bottom-2">
+    <div class="container-fluid">
+      <a href="index.html" class="navbar-brand">
+        <img src="Assets/Logo.png" class="img-fluid" alt="." width="60" height="60">
+        <p class="d-inline" id="flashdeckTitleNav">FLASHDECK</p>
+      </a>
+      <button class="navbar-toggler border" id="navbarToggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Decks
+            </a>
+
+            <div class="dropdown-menu bg-black" aria-labelledby="navbarDropdownMenuLink" id="navDropdown">
+              <a href="myDecks.html" class="dropdown-item">Study</a>
+              <a href="myDecks.html" class="dropdown-item">Explore</a>
+              <a href="myDecks.html" class="dropdown-item">My Decks</a>
+            </div>
+          </li>
+
+          
+          <li class="nav-item">
+            <a class="nav-link active" href="account.html">Account</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+  <!--END-->
+
+  <!--HEADER/LOGO-->
+  <div class="row mt-5"></div>
+  <div class="container mt-5 pt-5">
+    <div class="row">
+      <div class="col d-flex justify-content-center pe-0 me-0">
+        <img src="Assets/Logo.png" class="img-fluid d-flex" alt="...">
+      </div>
+      <div class="col-lg-9 d-flex align-items-center">
+        <p class="mt-4" id="flashdeckTitleHeader">FLASHDECK</p>
+      </div>
+    </div>
+  </div>
+  <!--END-->
+
+  <!--SUBHEADER-->
+  <div class="container pt-3 mb-5 pb-5">
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <form action="">
+            <div class="form-group mb-5"> <!-- username-->
+                <label for="usernameInput">Username</label>
+                <input type="text" class="form-control" placeholder="Enter your username" id="usernameInput" required>
+            </div>
+
+            <div class="form-group"> <!-- password -->
+                <label for="passwordInput">Password</label>
+                <input type="password" class="form-control" placeholder="Enter your password" id="passwordInput" required>
+            </div>
+
+            <div class="container mt-1 mb-5 pt-3">
+                <div class="row mt-5">
+                  <div class="col d-flex justify-content-center text-center">
+                    <button type="submit" class="btn">Sign In</button>
+                  </div>
+                </div>
+                <div class="row mt-4 mb-5">
+                    <div class="col d-flex justify-content-center text-center" style="font-size: 13px; font-weight: 100;">
+                        <p class="d-inline me-1 text-white">Don't have an account?</p>
+                        <a href="register.html" class="d-inline">Register</a>
+                    </div>
+                </div>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--END--> 
+
+  
+
+
+  <!--FOOTER-->
+  <div class="container-fluid mt-5" id="footer">
+    <div class="row mt-1"> <!--flashdeck-->
+      <div class="col text-center text-white">
+        <p id="footerHeader">FLASHDECK</p>
+      </div>
+    </div>
+
+    <div class="row"> <!--lorem ipsum-->
+      <div class="col text-center text-white"> 
+        <div id="footerLoremIpsum">
+          <p>Lorem Ipsum dolor sit amet consectetur adipisicing elit. Ratione veniam</p>
+          <p>amet autem sunt. perspiciatis nemo.</p>
+        </p>
+      </div>
+    </div>
+
+    <div class="row mb-1"> <!-- social media logos -->
+      <div class="col d-flex justify-content-center" id="footerLogos">
+        <img class="img-fluid mx-1" src="Assets/facebook-icon.png" style="width: 25px; height: 25px" alt="Facebook">
+        <img class="img-fluid mx-1" src="Assets/instagram-icon.png" style="width: 25px; height: 25px" alt="Instagram">
+        <img class="img-fluid mx-1" src="Assets/x-icon.png" style="width: 25px; height: 25px" alt="X">
+      </div>
+    </div>
+
+    <div class="row"> <!-- legal -->
+      <div class="col d-flex text-white justify-content-center">
+        <p id="footerLegal">© 2024 FlashDeck | All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+  <!--END-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
