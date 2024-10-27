@@ -2,12 +2,14 @@ from django.db import models
 
 # Create your models here.
 
+
+#Need Emma/Joshua to work out the models
 class Deck(models.Model):
-    print("need emma/joshua to work this out");
+    print("");
 
 
 class Card(models.Model):
-    print("need emma/joshua to work this out");
+    print("");
 
 
 
