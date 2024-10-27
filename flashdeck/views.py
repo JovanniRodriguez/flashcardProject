@@ -16,3 +16,6 @@ def home(request):
 
 def myDecks(request):
     return render(request, "flashdeck/myDecks.html")
+
+def createDeck(request):
+    return render(request, "flashdeck/create-deck.html")

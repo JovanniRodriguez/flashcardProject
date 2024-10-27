@@ -146,4 +146,59 @@ form a:hover{
     border-radius: 12px !important;
 }
 
+/* create-deck.html */
 
+/* deck info */
+#deckNameField{
+    width: 25rem;
+}
+#deckNameField:focus{
+    outline: none;
+    box-shadow: none;
+}
+#deckDescField{
+    width: 25rem;
+    height: 20rem;
+    outline: none;
+    box-shadow: none;
+    padding-top: 0px;
+}
+#deckDescField::placeholder{
+    
+}
+
+/* save deck button */
+#saveDeckButton{
+    width: 200px;
+    height: 50px;
+    font-size: 26px !important;
+    white-space: nowrap;
+}
+
+/* card info */
+#cardInfoCol{
+    border: 5px solid #A4E3FF;
+    border-radius: 22px;
+}
+
+#cardImageInput{
+    border: 2px solid #A4E3FF;
+    height: 40px;
+    
+}
+#cardImageInput::file-selector-button{
+    color: black;
+    background-color: #A4E3FF;
+}
+#cardImageInput:focus{
+    outline: none;
+    box-shadow: none;
+}
+#cardAudioInput{
+    border: 2px solid #A4E3FF;
+    height: 40px;
+}
+#cardAudioInput::file-selector-button{
+    color: black;
+    background-color: #A4E3FF;
+}
