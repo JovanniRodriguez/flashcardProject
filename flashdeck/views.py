@@ -19,3 +19,6 @@ def myDecks(request):
 
 def createDeck(request):
     return render(request, "flashdeck/create-deck.html")
+
+def account(request):
+    return render(request, "flashdeck/account.html")
