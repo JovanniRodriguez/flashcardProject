@@ -59,12 +59,51 @@
   <!--END-->
 
 
-  <div class="row mt-5 pt-5"></div> <!--spacing-->
+  <div class="row mt-5 pt-3"></div> <!--spacing-->
 
   
   <div class="container mt-5 pt-5">
-    <div class="row">
-        <h1>My Account</h1>
+    <!-- my account header-->
+    <div class="row mb-4">
+        <h1 class="text-white">My Account</h1>
+    </div>
+    <!--my account header end-->
+
+    <div class="row gap-5">
+      <!--account info-->
+      <div class="col-5 text-white" id="accountInfoCol">
+        <div class="row d-flex justify-content-center my-5">
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+           alt="img" id="pfp">
+        </div>
+
+        <div class="row d-flex justify-content-center my-2">
+          <h1 class="text-white text-center">Username</h1>
+        </div>
+
+        <div class="row d-flex justify-content-center mt-5 pt-5">
+          <div class="col d-flex justify-content-center">
+            <button id="changePasswordButton">Change Password</button>
+          </div>
+          
+        </div>
+
+        <div class="row d-flex justify-content-center my-2 mb-5">
+          <div class="col d-flex justify-content-center">
+            <button id="deleteAccountButton">Delete Account</button>
+          </div>
+          
+        </div>
+      </div>
+      <!--account info end-->
+
+      <!--stats ?-->
+      <div class="col" id="accountStatsCol">
+        <div class="row mt-4 ms-2">
+          <h1 class="text-white">Stats</h1>
+        </div>
+      </div>
+      <!--stats ? end-->
     </div>
   </div>
 
