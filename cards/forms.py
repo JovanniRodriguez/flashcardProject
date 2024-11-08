@@ -1,5 +1,5 @@
 from django import forms
-from .models import Flashcard
+from .models import Card, CardSet
 
 class FlashcardForm(forms.ModelsForm):
     class Meta:
@@ -8,5 +8,5 @@ class FlashcardForm(forms.ModelsForm):
 
 class CardsetForm(forms.ModelsForm):
     class Meta:
-        model = CardsetForm
+        model = CardSet
         fields = ['name', 'description']

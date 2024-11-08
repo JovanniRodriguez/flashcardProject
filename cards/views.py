@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import CardSet, Cards
+from .models import CardSet, Card
 from .forms import FlashcardForm
 from .forms import CardsetForm
 
