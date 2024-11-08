@@ -1,0 +1,246 @@
+body{
+    background-color: #333333 !important;
+    font-family: "JetBrains Mono", monospace !important;
+}
+/* index.html + */
+
+/* NAVBAR */
+#flashdeckTitleNav{
+    font-size: 32px;
+    color: #FFFFFF;
+}
+#navbarToggler{
+    border-color: #A4E3FF !important;
+}
+#navbarToggler:focus{
+    outline: none;
+    box-shadow: none;
+}
+#navDropdown a{
+    color: white;
+}
+#navDropdown a:hover{
+    background-color: black;
+    color: #A4E3FF;
+}
+.nav-item{
+    font-size: 20px;
+}
+
+.nav-link.active:hover{
+    color: #A4E3FF !important;
+}
+/* HEADER */
+#flashdeckTitleHeader{
+    font-size: 100px;
+    color: #FFFFFF;
+}
+#subHeader{
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 21px;
+    font-weight: 100;
+    color: #FFFFFF;
+    max-width: 300px;
+}
+/* BUTTONS */
+.btn{
+    background-color: #A4E3FF !important;
+    width: 232;
+    height: 64;
+    font-size: 24px !important;
+    border-radius: 4px !important;
+}
+.btn:hover{
+    background-color: #88bfd6 !important;
+}
+/* FOOTER */
+#footer{
+    position: absolute;
+    bottom: 0;
+
+
+    background-color: #303030 !important;
+}
+#footerHeader{
+    font-size: 21px;
+}
+#footerLoremIpsum{
+    font-size: 12px;
+    color: #666565;
+    line-height: 5px;
+}
+#footerLogos{
+
+}
+#footerLegal{
+    font-size: 12px;
+    color: #666565;
+}
+
+
+/* signIn.html */
+
+/* form labels */
+.form-group label{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+/* form input fields */
+.form-group input{
+    border: 3px solid #A4E3FF;
+    background-color: transparent;
+    width: 350px;
+    height: 60px;
+    color: white;
+}
+.form-group input:focus{
+    background-color: transparent;
+    color: white;
+}
+.form-group input::placeholder{
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.192);
+}
+form a{
+    display: inline;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    text-decoration: none;
+    font-weight: 700;
+}
+form a:hover{
+    color: #cacaca;
+}
+
+/* myDecks.html */
+
+/* Filter Button */
+#filterButton{
+    font-size: 21px;
+    border: none;
+    background-color: transparent;
+    color: #FFFFFF;
+}
+#filterButton:hover{
+    color: #A4E3FF;
+}
+
+/* create deck button */
+#createDeckButton{
+    font-size: 21px !important;
+    border: 3px solid #A4E3FF;
+    background-color: transparent !important;
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+#createDeckButton:hover{
+    background-color: #A4E3FF !important;
+}
+/* Cards */
+.card-group .card{ 
+    background-color: #A4E3FF;
+    border: 6px solid black !important;
+    border-radius: 12px !important;
+}
+
+/* create-deck.html */
+
+/* deck info */
+#deckNameField{
+    width: 25rem;
+}
+#deckNameField:focus{
+    outline: none;
+    box-shadow: none;
+}
+#deckDescField{
+    width: 25rem;
+    height: 20rem;
+    outline: none;
+    box-shadow: none;
+    padding-top: 0px;
+}
+#deckDescField::placeholder{
+    
+}
+
+/* save deck button */
+#saveDeckButton{
+    width: 200px;
+    height: 50px;
+    font-size: 26px !important;
+    white-space: nowrap;
+}
+
+/* card info */
+#cardInfoCol{
+    border: 5px solid #A4E3FF;
+    border-radius: 22px;
+}
+
+#cardImageInput{
+    border: 2px solid #A4E3FF;
+    height: 40px;
+    
+}
+#cardImageInput::file-selector-button{
+    color: black;
+    background-color: #A4E3FF;
+}
+#cardImageInput:focus{
+    outline: none;
+    box-shadow: none;
+}
+#cardAudioInput{
+    border: 2px solid #A4E3FF;
+    height: 40px;
+}
+#cardAudioInput::file-selector-button{
+    color: black;
+    background-color: #A4E3FF;
+}
+
+
+/* account.html */
+
+#accountInfoCol{
+    border: 5px solid #A4E3FF;
+    border-radius: 25px;
+}
+
+#pfp{
+    width: 10rem;
+    border-radius: 100px; 
+}
+
+#changePasswordButton{
+    background-color: #A4E3FF;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    width: 156px;
+    height: 40px;
+    color: black;
+    font-weight: 500;
+    padding: 5px 5px;
+}
+
+#deleteAccountButton{
+    background-color: black;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    width: 156px;
+    color: white;
+    font-weight: 500;
+    height: 40px;
+    padding: 5px 5px;
+}
+
+#accountStatsCol{
+    border: 5px solid #A4E3FF;
+    border-radius: 25px;
+}
