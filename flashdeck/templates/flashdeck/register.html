@@ -76,26 +76,29 @@
   <div class="container">
     <div class="row">
       <div class="col d-flex justify-content-center">
-        <form action="">
+        {% block content %}
+        <form method="POST">
 
-            <div class="form-group mb-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <!--<div class="form-group mb-4">
                 <label for="emailInput">Email Address</label>
                 <input type="email" class="form-control" placeholder="Enter your email address" id="emailInput" required>
             </div>
-            <div class="form-group mb-4"> <!-- username-->
+            <div class="form-group mb-4">
                 <label for="usernameInput"> Create Username</label>
                 <input type="text" class="form-control" placeholder="Enter a username" id="usernameInput" required>
             </div>
 
-            <div class="form-group"> <!-- password -->
+            <div class="form-group">
                 <label for="passwordInput">Create Password</label>
                 <input type="password" class="form-control" placeholder="Enter a password" id="passwordInput" required>
             </div>
             
-            <div class="form-group mt-4"> <!-- password -->
+            <div class="form-group mt-4">
                 <label for="passwordInput">Confirm Password</label>
                 <input type="password" class="form-control" placeholder="Re-enter password" id="passwordInput" required>
-            </div>
+            </div> -->
 
             <div class="container pt-1">
                 <div class="row mt-5">
@@ -109,8 +112,9 @@
                         <a href="sign-in" class="d-inline">Sign In</a>
                     </div>
                 </div>
-              </div>
+            </div> 
         </form>
+        {% endblock %}
       </div>
     </div>
   </div>

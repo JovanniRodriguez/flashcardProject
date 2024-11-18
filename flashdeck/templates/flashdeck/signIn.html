@@ -1,4 +1,4 @@
-<!-- templates/flashdeck/signIn.html-->
+<!-- templates/flashdeck/signIn.html--> 
 {% load static %}
 <html lang="en">
 
@@ -73,19 +73,13 @@
   <!--END-->
 
   <!--SUBHEADER-->
+  {% block content %}
   <div class="container pt-3 mb-5 pb-5">
     <div class="row">
       <div class="col d-flex justify-content-center">
-        <form action="">
-            <div class="form-group mb-5"> <!-- username-->
-                <label for="usernameInput">Username</label>
-                <input type="text" class="form-control" placeholder="Enter your username" id="usernameInput" required>
-            </div>
-
-            <div class="form-group"> <!-- password -->
-                <label for="passwordInput">Password</label>
-                <input type="password" class="form-control" placeholder="Enter your password" id="passwordInput" required>
-            </div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
             <div class="container mt-1 mb-5 pt-3">
                 <div class="row mt-5">
@@ -96,7 +90,7 @@
                 <div class="row mt-4 mb-5">
                     <div class="col d-flex justify-content-center text-center" style="font-size: 13px; font-weight: 100;">
                         <p class="d-inline me-1 text-white">Don't have an account?</p>
-                        <a href="register" class="d-inline">Register</a>
+                        <a href="{% url 'register' %}" class="d-inline">Register</a>
                     </div>
                 </div>
               </div>
@@ -104,6 +98,7 @@
       </div>
     </div>
   </div>
+  {% endblock %}
   <!--END--> 
 
   

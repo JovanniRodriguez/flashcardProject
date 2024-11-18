@@ -1,17 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CardSet, Card
-from .forms import FlashcardForm, CardsetForm
-from django.http import HttpResponse
+from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, CustomUserChangeForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
+
+class RegisterView(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "flashdeck/register.html"
 
 def index(request):
     return render(request, "flashdeck/index.html")
 
 def signIn(request):
-    return render(request, "flashdeck/signIn.html")
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = AuthenticationForm()
+    return render(request, "flashdeck/signIn.html", {"form": form})
 
 def register(request):
-    return render(request, "flashdeck/register.html")
+    if request.method == "POST":
+        form = CustomUserCreationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "flashdeck/register.html", {"form": form})
 
 def home(request):
     return render(request, "flashdeck/home.html")

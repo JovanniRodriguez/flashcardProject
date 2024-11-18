@@ -1,7 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from flashcardProject import settings
 
 # Create your models here.
+
+class CustomUser(AbstractUser):
+    pass
+
+    def __str__(self):
+        return self.username
 
 
 NUM_BOXES = 4
@@ -11,7 +18,7 @@ class CardSet(models.Model):
     name = models.CharField(max_length=100, default=None)
     description = models.CharField(max_length=500, default=None)
     date_created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
