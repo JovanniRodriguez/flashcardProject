@@ -22,7 +22,7 @@ def signIn(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('home')
     else:
         form = AuthenticationForm()
     return render(request, "flashdeck/signIn.html", {"form": form})
