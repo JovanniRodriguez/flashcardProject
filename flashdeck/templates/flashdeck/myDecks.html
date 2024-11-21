@@ -94,21 +94,24 @@
   <!-- Deck Grid -->
   <div class="container mt-5">
     <div class="card-group">
-      <div class="card mx-4 py-4 border rounded-2">
         <!-- <img src="https://placehold.co/50x50" class="card-img-top" 
         alt="img"> -->
         
-        <div class="card-body text-center">
-          <ul>
-            {% for flashcard_set in sets %}
-                <a href="{% url 'flashcard_list' flashcard_set.id %}"><li>
-                    <h5 class="card-title">{{ CardSet.name }}</h5>
-                    <p class="card-text">{{ CardSet.description }}</p>
-                </li></a>
+        {% block content %}
+        <div class="card-body">
+          <div class="row">
+            {% for deck in sets %}
+            <div class="card mx-4 py-4 border rounded-2"><!-- Bootstrap grid for layout -->
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ deck.name }}</h5> <!-- Use the correct variable name -->
+                    <p class="card-text">{{ deck.description }}</p>
+                    <!--<a href="{% url 'edit_cardset' deck.id %}" class="btn btn-primary">Edit Deck</a>-->
+                </div>
+            </div>
             {% endfor %}
-        </ul>
+          </div>
         </div>
-      </div>
+        {% endblock %}
     </div>
   </div>
   

@@ -75,13 +75,15 @@
       <!-- left column for deck info -->
       <div class="col">
         <div class="row text-white justify-content-start">
-            <form method="POST" action="{% url 'my-deck'}">
+          {% block content %}
+            <form method="POST" action="{% url 'add_cardset' %}">
               {% csrf_token %}
               {{ form.as_p}}
               <div class="row mt-4">
                 <button class="btn" id="saveDeckButton">Save Deck</button>
               </div>
             </form>
+            {% endblock %}
             <!--<h1 class="ms-0 ps-0">Name</h1>
             <input type="text" class="form-control" placeholder="Enter a deck name" id="deckNameField">
             <h1 class="ms-0 mt-2 ps-0">Description</h1>

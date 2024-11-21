@@ -22,5 +22,5 @@ urlpatterns = [
     path('my-decks', views.myDecks, name='cardset_list'),
     path('create-deck', views.createDeck, name='add_cardset'),
     path('login/', LoginView.as_view(template_name='flashdeck/home.html'), name='login'),
-
+    path('cardset/<int:cardset_id>/edit/', views.edit_cardset, name='edit_cardset'),
 ]
