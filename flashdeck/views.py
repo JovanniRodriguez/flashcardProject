@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")
+    success_url = reverse_lazy("home")
     template_name = "flashdeck/register.html"
 
 def index(request):
@@ -34,7 +34,7 @@ def register(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('home')
     else:
         form = CustomUserCreationForm()
     return render(request, "flashdeck/register.html", {"form": form})
@@ -108,4 +108,4 @@ def add_flashcard(request, set_id):
             return redirect('flashcard_list', set_id=set_id)
     else:
         form = FlashcardForm()
-    return render(request, 'flashdeck/...', {'form' : form, 'flashcard_set' : flashcard_set}) # replace ... with html page that has form to add cards
+    return render(request, 'flashdeck/create-card.html', {'form' : form, 'flashcard_set' : flashcard_set}) # replace ... with html page that has form to add cards

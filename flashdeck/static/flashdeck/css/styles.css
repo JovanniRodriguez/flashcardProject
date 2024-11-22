@@ -1,6 +1,10 @@
 body{
     background-color: #333333 !important;
     font-family: "JetBrains Mono", monospace !important;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 /* index.html + */
 
@@ -57,6 +61,7 @@ body{
 #footer{
     position: absolute;
     bottom: 0;
+    margin-top: auto;
 
 
     background-color: #303030 !important;
@@ -181,26 +186,73 @@ form a:hover{
     border-radius: 22px;
 }
 
-#cardImageInput{
-    border: 2px solid #A4E3FF;
-    height: 40px;
+#mainContainer{
+    border: 6px solid #A4E3FF;
+    border-radius: 22px;
+}
+.cardHeader{
+    color: white;
+}
+.frontOfCard, .backOfCard{
     
+    width: 500px;
+    height: 700px;
 }
-#cardImageInput::file-selector-button{
-    color: black;
-    background-color: #A4E3FF;
+.cardInput{
+    width: 500px;
+    height: 650px;
+    border: 6px solid #A4E3FF;
+    border-radius: 22px;
+    font-size: 30px;
+    background: transparent;
+    padding: 20px;
+    color: white;
+    resize: none;
 }
-#cardImageInput:focus{
+.cardInput:focus{
     outline: none;
-    box-shadow: none;
 }
-#cardAudioInput{
-    border: 2px solid #A4E3FF;
+#uploadAudio, #uploadImage{
+    width: 25px;
+    height: 25px;
+    margin: 5px 5px;
+}
+.cardPreviewContainer{
+    border: 3px solid #A4E3FF;
+    border-radius: 7px;
+}
+.addCardButton{
+    border: 5px solid #A4E3FF;
+    border-radius: 22px;
+    background-color: transparent;
+    color: white;
+    font-size: 48px;
+    padding: 3px 10px;
+    transition: background-color 0.3s;
+}
+.addCardButton:hover{
+    background-color: #a4e3ff;
+}
+.imagePreview{
+    width: 100px;
+    height: 100px;
+    border: 2px solid #a4e3ff;
+    border-radius: 8px;
+}
+.playAudioIcon{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.previewTextInput{
+    width: 300px;
+    height: 50px;
+    resize: none;
+}
+.editCardIcon, .deleteCardIcon{
+    width: 40px;
     height: 40px;
-}
-#cardAudioInput::file-selector-button{
-    color: black;
-    background-color: #A4E3FF;
+    cursor: pointer;
 }
 
 

@@ -81,25 +81,6 @@
 
             {% csrf_token %}
             {{ form.as_p }}
-            <!--<div class="form-group mb-4">
-                <label for="emailInput">Email Address</label>
-                <input type="email" class="form-control" placeholder="Enter your email address" id="emailInput" required>
-            </div>
-            <div class="form-group mb-4">
-                <label for="usernameInput"> Create Username</label>
-                <input type="text" class="form-control" placeholder="Enter a username" id="usernameInput" required>
-            </div>
-
-            <div class="form-group">
-                <label for="passwordInput">Create Password</label>
-                <input type="password" class="form-control" placeholder="Enter a password" id="passwordInput" required>
-            </div>
-            
-            <div class="form-group mt-4">
-                <label for="passwordInput">Confirm Password</label>
-                <input type="password" class="form-control" placeholder="Re-enter password" id="passwordInput" required>
-            </div> -->
-
             <div class="container pt-1">
                 <div class="row mt-5">
                   <div class="col d-flex justify-content-center text-center">
@@ -109,7 +90,7 @@
                 <div class="row mt-4">
                     <div class="col d-flex justify-content-center text-center" style="font-size: 13px; font-weight: 100;">
                         <p class="d-inline me-1 text-white">Already have an account?</p>
-                        <a href="sign-in" class="d-inline">Sign In</a>
+                        <a href="{% url 'signIn' %}" class="d-inline">Sign In</a>
                     </div>
                 </div>
             </div> 

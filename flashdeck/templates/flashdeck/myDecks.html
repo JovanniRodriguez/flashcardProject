@@ -79,7 +79,7 @@
     <div class="row mt-2">
       <div class="col-4 text-white d-flex"> <!-- searchbar -->
         <input type="text" class="form-control me-3" placeholder="Search">
-        <a href="create-deck"><button id="createDeckButton">Create</button></a>
+        <a href="{% url 'add_cardset' %}"><button id="createDeckButton">Create</button></a>
       </div>
 
       <div class="col"></div> <!-- spacing -->
@@ -98,8 +98,6 @@
         alt="img"> -->
         
         {% block content %}
-        <div class="card-body">
-          <div class="row">
             {% for deck in sets %}
             <div class="card mx-4 py-4 border rounded-2"><!-- Bootstrap grid for layout -->
                 <div class="card-body text-center">
@@ -109,8 +107,6 @@
                 </div>
             </div>
             {% endfor %}
-          </div>
-        </div>
         {% endblock %}
     </div>
   </div>
