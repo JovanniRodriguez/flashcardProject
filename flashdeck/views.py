@@ -69,6 +69,12 @@ def edit_cardset(request, cardset_id):
 def account(request):
     return render(request, "flashdeck/account.html")
 
+def study(request):
+    return render(request, 'flashdeck/study.html')
+
+def quiz(request):
+    return render(request, 'flashdeck/quiz.html')
+
 @login_required
 def myDecks(request):
     user_decks = CardSet.objects.filter(user=request.user)

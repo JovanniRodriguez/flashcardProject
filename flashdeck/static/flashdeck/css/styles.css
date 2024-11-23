@@ -296,3 +296,335 @@ form a:hover{
     border: 5px solid #A4E3FF;
     border-radius: 25px;
 }
+
+/* Deck Sections */
+.deck-section {
+    margin: 20px 0;
+  }
+  
+  .deck-section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+  }
+  
+  .deck-list {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .deck-item {
+    width: 100px;
+    height: 100px;
+    background-color: #A4E3FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .main-content {
+    margin-top: 160px;
+    position: relative;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .prototype-box {
+    margin-top: 10px;
+    width: 400px;
+    height: 450px;
+    border: 2px solid #A4E3FF;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #ffffff;
+    background-color: #333333;
+  }
+  
+  .confidence-text {
+    margin: 0 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 30px;
+    border: 2px solid #b0c4de; 
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background-color: #333333;
+  }
+  
+  .confidence-button {
+    background-color: transparent;
+    border: 12px solid; /* Increased border width */
+    font-size: 12px ;
+    border-radius: 5px;
+    padding: 10px 20px; /* Adjusted padding for appropriate size */
+    cursor: pointer;
+    width: auto; /* Allow button width to adapt */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+    .confidence-level {
+        display: flex;
+        flex-direction: column; /* Stack number and text vertically */
+        align-items: center;
+        gap: 5px; /* Add spacing between number and label */
+    }
+  
+    .confidence-level .confidence-button {
+        margin-bottom: 0; /* Optional if there's unwanted spacing */
+    }
+  
+  
+  /* Utility Classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-center-confidence {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+  }
+  
+  .mt-20 {
+    margin-top: 20px;
+  }
+  
+  /* Position front elements above the card */
+  .front-elements {
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for the Back Side of the Card */
+  .back-numbers {
+    display: flex;
+    justify-content: center;
+    margin-top: 180px;
+  }
+  
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    position: inherit;
+  }
+  
+  .card,
+  #card-1,
+  #card-2,
+  #card-3,
+  #card-4,
+  #card-5 {
+    width: 400px;
+    height: 450px !important;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  
+  #card-1 {
+    z-index: 5;
+  }
+  
+  #card-2 {
+    z-index: 4;
+  }
+  
+  #card-3 {
+    z-index: 3;
+  }
+  
+  #card-4 {
+    z-index: 2;
+  }
+  
+  #card-5 {
+    z-index: 1;
+  }
+  
+  #card-6 {
+    z-index: 0;
+  }
+  
+  .front,
+  .back {
+    margin-top: 0px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    color: #ffffff;
+    overflow: hidden;
+    padding: 10px;
+  }
+  
+  .back {
+    transform: rotateY(180deg);
+  }
+  
+  .card.flip {
+    transform: rotateY(180deg);
+  }
+  
+  /* Ensure text scales to fit within the prototype box */
+  .prototype-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(1.5vw + 1.5vh);
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  .card-flip-hidden {
+    display: none;
+  }
+  
+  .numbers {
+    margin-top: 180px;
+  }
+  
+  .number {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.2em;
+    cursor: pointer;
+  }
+  
+  .number:hover {
+    text-decoration: underline;
+  }
+  
+  /* Ensure the back-numbers div is centered and styled properly */
+  .back-numbers {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .back-numbers .number {
+    margin: 0 10px;
+  }
+  
+  .quiz-card {
+    margin-left: 500px;
+    margin-top: 140px;
+    width: 400px;
+    height: 420px;
+    padding: 30px;
+    background-color: #444;
+    border-radius: 10px;
+    border: 2px solid #87CEFA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  
+  .quiz-card.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+  }
+  
+  .quiz-card .prompt p {
+    font-size: 1.3em;
+    line-height: 1.5;
+  }
+  
+  .quiz-card .answer-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #333;
+    border: 2px solid #87CEFA;
+    border-radius: 5px;
+  }
+  
+  .quiz-card .answer-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+  }
+  
+  .quiz-card .answer-input::placeholder {
+    color: #aaa;
+  }
+  
+  .quiz-card .submit-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #333;
+    background-color: #87CEFA;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .quiz-card .submit-btn:hover {
+    background-color: #70b2e0;
+  }
+  
+  .quiz-card .feedback-message {
+    margin-top: 15px;
+    font-size: 1.2em;
+  }
+  
+  /* Set z-index for each card */
+  .quiz-card:nth-child(1) {
+    z-index: 1;
+  }
+  
+  .quiz-card:nth-child(2) {
+    z-index: 2;
+  }
+  
+  .quiz-card:nth-child(3) {
+    z-index: 3;
+  }
+  
+  .quiz-card:nth-child(4) {
+    z-index: 4;
+  }
+  
+  .quiz-card:nth-child(5) {
+    z-index: 5;
+  }
+  
+  .quiz-card:nth-child(6) {
+    z-index: 6;
+  }
