@@ -1,6 +1,7 @@
 body {
   background-color: #333333 !important;
   font-family: "JetBrains Mono", monospace !important;
+  margin: 0 !important;
 }
 
 /* NAVBAR */
@@ -63,8 +64,15 @@ body {
 }
 
 /* FOOTER */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
 #footer {
   background-color: #303030 !important;
+  margin-top: auto !important;
 }
 
 #footerHeader {
@@ -176,6 +184,7 @@ form a:hover {
   height: 600px;
   display: flex;
   justify-content: center;
+  flex: 1;
 }
 
 .prototype-box {
@@ -324,8 +333,6 @@ form a:hover {
 .card.flip {
   transform: rotateY(180deg);
 }
-
-/* Ensure text scales to fit within the prototype box */
 .prototype-box {
   display: flex;
   align-items: center;
@@ -361,7 +368,6 @@ form a:hover {
   text-decoration: underline;
 }
 
-/* Ensure the back-numbers div is centered and styled properly */
 .back-numbers {
   display: flex;
   justify-content: center;
@@ -372,7 +378,7 @@ form a:hover {
   margin: 0 10px;
 }
 
-.quiz-card {
+/* .quiz-card {
   margin-left: 500px;
   margin-top: 140px;
   width: 400px;
@@ -390,6 +396,21 @@ form a:hover {
   top: 0;
   left: 0;
   transition: opacity 0.5s ease, transform 0.5s ease;
+} */
+
+.quiz-card {
+  width: 400px;
+  height: 420px;
+  padding: 30px;
+  background-color: #444;
+  border-radius: 10px;
+  border: 2px solid #87CEFA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 20px; 
 }
 
 
@@ -404,8 +425,10 @@ form a:hover {
   line-height: 1.5;
 }
 
-.quiz-card .answer-container {
-  width: 100%;
+
+.answer-section .answer-container {
+  margin-left: 385px;
+  width: 40%;
   margin-top: 20px;
   padding: 10px;
   background-color: #333;
@@ -413,7 +436,7 @@ form a:hover {
   border-radius: 5px;
 }
 
-.quiz-card .answer-input {
+.answer-section .answer-input {
   width: 100%;
   padding: 10px;
   font-size: 1em;
@@ -424,11 +447,11 @@ form a:hover {
   text-align: center;
 }
 
-.quiz-card .answer-input::placeholder {
+.answer-section .answer-input::placeholder {
   color: #aaa;
 }
 
-.quiz-card .submit-btn {
+.answer-section .submit-btn {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1em;
@@ -437,18 +460,20 @@ form a:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 600px;
 }
 
-.quiz-card .submit-btn:hover {
+.answer-section .submit-btn:hover {
   background-color: #70b2e0;
 }
 
-.quiz-card .feedback-message {
+.answer-section .feedback-message {
   margin-top: 15px;
   font-size: 1.2em;
+  margin-left: 605px;
 }
 
-/* Set z-index for each card */
+/* Set z-index for each hardcoded card */
 .quiz-card:nth-child(1) {
   z-index: 1;
 }
