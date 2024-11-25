@@ -23,7 +23,7 @@ def signIn(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect('home')
+            return HttpResponseRedirect('my-decks')
     else:
         form = AuthenticationForm()
     return render(request, "flashdeck/signIn.html", {"form": form})
@@ -34,7 +34,7 @@ def register(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect('home')
+            return HttpResponseRedirect('my-decks')
     else:
         form = CustomUserCreationForm()
     return render(request, "flashdeck/register.html", {"form": form})
