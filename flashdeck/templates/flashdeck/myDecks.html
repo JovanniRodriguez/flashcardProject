@@ -79,7 +79,7 @@
     <div class="row mt-2">
       <div class="col-4 text-white d-flex"> <!-- searchbar -->
         <input type="text" class="form-control me-3" placeholder="Search">
-        <a href="create-deck"><button id="createDeckButton">Create</button></a>
+        <button id="createDeckButton">Create</button>
       </div>
 
       <div class="col"></div> <!-- spacing -->
@@ -94,7 +94,7 @@
   <!-- Deck Grid -->
   <div class="container mt-5">
     <div class="card-group">
-      <div class="card mx-4 py-4 border rounded-2">
+      <div class="card mx-4 py-4 border rounded-2" data-bs-toggle="modal" data-bs-target="#cardModal">
         <!-- <img src="https://placehold.co/50x50" class="card-img-top" 
         alt="img"> -->
         <div class="card-body text-center">
@@ -104,7 +104,7 @@
   
       </div>
   
-      <div class="card mx-4 py-4 border rounded-2">
+      <div class="card mx-4 py-4 border rounded-2" data-bs-toggle="modal" data-bs-target="#cardModal">
         <!-- <img src="https://placehold.co/50x50" class="card-img-top" 
         alt="img"> -->
         <div class="card-body text-center">
@@ -114,7 +114,7 @@
         
       </div>
   
-      <div class="card mx-4 py-4 border rounded-2">
+      <div class="card mx-4 py-4 border rounded-2" data-bs-toggle="modal" data-bs-target="#cardModal">
         <!-- <img src="https://placehold.co/50x50" class="card-img-top" 
         alt="img"> -->
         <div class="card-body text-center">
@@ -127,6 +127,36 @@
   </div>
   
   <!-- END -->
+
+  <!--card modal-->
+  <div class="modal fade" id="cardModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content p-3">
+        <div class="modal-body">
+          <div class="row my-3">
+            <h2 class="text-white text-center">Deck Name</h2>
+          </div>
+          <div class="row my-3">
+            <textarea type="text" class="deckNameInput" placeholder="Enter a name for your deck"></textarea>
+          </div>
+          <div class="row mt-5 mb-3">
+            <h2 class="text-white text-center">Deck Name Description</h2>
+          </div>
+          <div class="row my-3">
+            <textarea type="text" class="deckDescInput" placeholder="Enter a description"></textarea>
+          </div>
+          <div class="row my-3 d-flex justify-content-center">
+            <button type="button" class="btn closeModalButton" data-bs-dismiss="modal">Close</button>
+
+          </div>
+          <div class="row my-3 d-flex justify-content-center">
+            <button type="button" class="btn saveModalButton">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--card modal end-->
 
 
 

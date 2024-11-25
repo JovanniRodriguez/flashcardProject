@@ -128,6 +128,7 @@ form a:hover{
     border: none;
     background-color: transparent;
     color: #FFFFFF;
+    transition: color 0.3s ease;
 }
 #filterButton:hover{
     color: #A4E3FF;
@@ -139,6 +140,7 @@ form a:hover{
     border: 3px solid #A4E3FF;
     background-color: transparent !important;
     color: #FFFFFF;
+    transition: background-color 0.3s ease;
     border-radius: 8px;
 }
 #createDeckButton:hover{
@@ -149,6 +151,53 @@ form a:hover{
     background-color: #A4E3FF;
     border: 6px solid black !important;
     border-radius: 12px !important;
+}
+
+.card{
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+.modal-content{
+    border: 3px solid #A4E3FF !important;
+    background-color: #333333 !important;
+    border-radius: 22px !important;
+}
+
+.deckNameInput{
+    border: 3px solid #A4E3FF;
+    border-radius: 22px;
+    height: 50px;
+    background: transparent;
+    padding: 10px;
+    resize: none;
+    color: white;
+}
+
+
+.deckDescInput{
+    height: 300px !important;
+    border: 3px solid #A4E3FF;
+    border-radius: 22px;
+    height: 50px;
+    background: transparent;
+    padding: 10px;
+    resize: none;
+    color: white;
+}
+
+.deckNameInput:focus, .deckDescInput:focus{
+    outline: none;
+}
+
+.closeModalButton, .saveModalButton{
+    width: 200px !important;
 }
 
 /* create-deck.html */
