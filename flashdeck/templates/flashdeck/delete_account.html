@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
     rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account | FlashDeck</title>
+  <title>Delete Account | FlashDeck</title>
 </head>
 
 <body>
@@ -44,58 +44,40 @@
   </nav>
   <!--END-->
 
+  <style>
+    #confirmDeleteButton{
+        background-color: #A4E3FF;
+        border-radius: 5px;
+        outline: 1px;
+        border: none;
+        width: 180px;
+        height: 40px;
+        color: black;
+        font-weight: 500;
+        padding: 5px 5px;
+        margin: 5px;
+    }
+  </style>
+
 
   <div class="row mt-5 pt-3"></div> <!--spacing-->
 
   
   <div class="container mt-5 pt-5">
-    <!-- my account header-->
-    <div class="row mb-4">
-        <h1 class="text-white">My Account</h1>
-    </div>
-    <!--my account header end-->
-
-    <div class="row gap-5">
-      <!--account info-->
-      <div class="col-5 text-white" id="accountInfoCol">
-        <div class="row d-flex justify-content-center my-5">
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
-           alt="img" id="pfp">
-        </div>
-
-        {% block content %}
-        <div class="row d-flex justify-content-center my-2">
-          <h1 class="text-white text-center">{{user.username}}</h1>
-        </div>
-
-        <form method="GET" action="{% url 'change_password' %}">
-          <div class="row d-flex justify-content-center mt-5 pt-5">
-            <div class="col d-flex justify-content-center">
-              <button id="changePasswordButton" type="submit">Change Password</button>
-            </div>
-          </div>
-        </form>      
-
-        <form method="GET" action="{% url 'delete_account' %}">
-          <div class="row d-flex justify-content-center my-2 mb-5">
-            <div class="col d-flex justify-content-center">
-              <button id="deleteAccountButton" type="submit">Delete Account</button>
-            </div>
-          </div>
-        </form>        
-
-        {% endblock %}
-      </div>
-      <!--account info end-->
-
-      <!--stats ?-->
-      <div class="col" id="accountStatsCol">
-        <div class="row mt-4 ms-2">
-          <h1 class="text-white">Stats</h1>
+    {% block content %}
+    <h1 class="text-danger text-center">Delete Account</h1>
+    <p class="text-white text-center">Are you sure you want to delete your account? This action cannot be undone.</p>
+    <form method="POST">
+    {% csrf_token %}
+    <div class="row d-flex justify-content-center mt-5 pt-5">
+        <div class="col d-flex justify-content-center text-center">
+            <button type="submit" name="confirm_delete" id="confirmDeleteButton">Confirm Deletion</button>
+            <a href="{% url 'account' %}" id="confirmDeleteButton" type="submit">Cancel</a>
         </div>
       </div>
-      <!--stats ? end-->
-    </div>
+    </form>
+    {% endblock %}
+
   </div>
 
   <!--FOOTER-->

@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import CardSet, Card
-from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, CustomUserChangeForm
+from .models import CardSet, Card, CustomUser
+from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, ChangePasswordForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib import messages
 # Create your views here.
 
 class RegisterView(CreateView):
@@ -64,7 +67,7 @@ def edit_cardset(request, cardset_id):
         'cardset_form': cardset_form,
         'card_forms': card_forms,
     }
-    return render(request, 'edit_cardset.html', context)
+    return render(request, 'flashdeck/edit_cardset.html', context)
 
 def account(request):
     return render(request, "flashdeck/account.html")
@@ -115,3 +118,19 @@ def add_flashcard(request, set_id):
     else:
         form = FlashcardForm()
     return render(request, 'flashdeck/create-card.html', {'form' : form, 'flashcard_set' : flashcard_set}) # replace ... with html page that has form to add cards
+
+@login_required
+def delete_account(request):
+    if request.method == "POST" and "confirm_delete" in request.POST:
+        # Delete the user if the confirmation flag is present
+        request.user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect('index')  # Redirect to a safe page
+
+    # If the request is GET or no confirmation flag, show the confirmation page
+    return render(request, 'flashdeck/delete_account.html')
+
+class ChangePasswordView(PasswordChangeView):
+    form_class = ChangePasswordForm
+    success_url = reverse_lazy('account')
+    template_name = 'flashdeck/password_change.html'

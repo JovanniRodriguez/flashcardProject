@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView
-from .views import RegisterView
+from django.contrib.auth.views import LoginView, PasswordChangeDoneView, PasswordChangeView
+from .views import ChangePasswordView, RegisterView
 from . import views
 
 urlpatterns = [
@@ -23,4 +23,8 @@ urlpatterns = [
     path('cardset/<int:cardset_id>/edit/', views.edit_cardset, name='edit_cardset'),
     path('study/', views.study, name="study"),
     path('quiz', views.quiz, name="quiz"),
+    path('change-password/', ChangePasswordView.as_view(), name='change_password'),
+    path('delete-account/', views.delete_account, name='delete_account'),
+
+
 ]

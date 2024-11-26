@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, PasswordChangeForm
 from .models import Card, CardSet, CustomUser
 
 class FlashcardForm(forms.ModelForm):
@@ -41,3 +41,8 @@ class CustomUserChangeForm(UserChangeForm):
                 'placeholder' : 'Password'
             }),
         }
+
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
