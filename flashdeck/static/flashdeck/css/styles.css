@@ -134,6 +134,13 @@ form a:hover{
     color: #A4E3FF;
 }
 
+.studyButton, .editDeckButton, .deleteDeckButton{
+    width: 200px !important;
+}
+
+.deleteDeckButton:hover{
+    background-color: red !important;
+}
 /* create deck button */
 #createDeckButton{
     font-size: 21px !important;
@@ -147,13 +154,29 @@ form a:hover{
     background-color: #A4E3FF !important;
 }
 /* Cards */
-.card-group .card{ 
-    background-color: #A4E3FF;
+
+
+.card-title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+.card-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    max-height: 50px;
+}
+.card{
+    background-color: #A4E3FF !important;
     border: 6px solid black !important;
     border-radius: 12px !important;
-}
-
-.card{
+    width: 325px;
+    height: 200px;
+    max-height: 200px;
+    max-width: 325px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     cursor: pointer;
