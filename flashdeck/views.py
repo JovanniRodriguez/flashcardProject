@@ -4,7 +4,7 @@ from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, ChangePas
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
@@ -22,22 +22,23 @@ def index(request):
 
 def signIn(request):
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return HttpResponseRedirect('my-decks')
-    else:
-        form = AuthenticationForm()
-    return render(request, "flashdeck/signIn.html", {"form": form})
+            return redirect('cardset_list')  # Replace 'home' with the URL name for your dashboard or homepage
+        else:
+            return render(request, 'flashdeck/signIn.html', {'error': 'Invalid username or password'})
+    return render(request, 'flashdeck/signIn.html')
 
 def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return HttpResponseRedirect('my-decks')
+            user = form.save()  # Save the user
+            login(request, user)  # Log the user in after registration
+            return redirect('signIn')  # Redirect to sign-in page or another view
     else:
         form = CustomUserCreationForm()
     return render(request, "flashdeck/register.html", {"form": form})
