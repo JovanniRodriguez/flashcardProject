@@ -1,94 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  let confidenceSelections = {};
 <head>
   <meta charset="UTF-8">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
     rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlashDeck</title>\
-  
-  <style>
-    .confidence-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: solid 2px;
-      padding: 0px;
-      border-radius: 8px;
-      width: 80px;
-      font-size: 0.75em;
-    }
-  
-    .confidence-button {
-      background-color: transparent;
-      border: none;
-      font-size: 1.2em;
-      cursor: pointer;
-    }
-  
-    .confidence-container div {
-      margin-top: 5px;
-      width: 200px;
-      margin-bottom: 5px;
-      margin: 0 10px;
-      padding: 0px;
-      text-align: center;
-    }
-  
-    /* Confidence container border colors */
-    .confidence-level:nth-child(1) .confidence-container {
-      border-color: #87CEFA !important;
-    }
-  
-    .confidence-level:nth-child(2) .confidence-container {
-      border-color: #32CD32 !important;
-    }
-  
-    .confidence-level:nth-child(3) .confidence-container {
-      border-color: #FFD700 !important;
-    }
-  
-    .confidence-level:nth-child(4) .confidence-container {
-      border-color: #FF6347 !important;
-    }
-  
-    /* Confidence button text colors */
-    .confidence-level:nth-child(1) .confidence-button,
-    .confidence-level:nth-child(1) .confidence-container div {
-      color: #87CEFA !important;
-    }
-  
-    .confidence-level:nth-child(2) .confidence-button,
-    .confidence-level:nth-child(2) .confidence-container div {
-      color: #32CD32 !important;
-    }
-  
-    .confidence-level:nth-child(3) .confidence-button,
-    .confidence-level:nth-child(3) .confidence-container div {
-      color: #FFD700 !important;
-    }
-  
-    .confidence-level:nth-child(4) .confidence-button,
-    .confidence-level:nth-child(4) .confidence-container div {
-      color: #FF6347 !important;
-    }
-  </style>
+  <title>{{ deck.name }} - FlashDeck</title>
 </head>
 
 <body>
-  <!--NAVBAR-->
+  <!-- NAVBAR -->
   <nav class="navbar fixed-top navbar-dark bg-black navbar-expand-lg rounded-bottom-2">
     <div class="container-fluid">
-      <a href="index.html" class="navbar-brand">
-        <img src="Logo.png" class="img-fluid" alt="." width="60" height="60">
+      <a href="{% url 'home' %}" class="navbar-brand">
+        <img src="{% static 'Logo.png' %}" class="img-fluid" alt="Logo" width="60" height="60">
         <p class="d-inline" id="flashdeckTitleNav">FLASHDECK</p>
       </a>
       <button class="navbar-toggler border" id="navbarToggler" type="button" data-bs-toggle="collapse"
@@ -99,7 +34,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -109,126 +44,74 @@
             </a>
 
             <div class="dropdown-menu bg-black" aria-labelledby="navbarDropdownMenuLink" id="navDropdown">
-              <a href="myDecks.html" class="dropdown-item">Study</a>
-              <a href="myDecks.html" class="dropdown-item">Explore</a>
-              <a href="myDecks.html" class="dropdown-item">My Decks</a>
+              <a href="{% url 'study' %}" class="dropdown-item">Study</a>
+              <a href="{% url 'explore' %}" class="dropdown-item">Explore</a>
+              <a href="{% url 'my_decks' %}" class="dropdown-item">My Decks</a>
             </div>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="account.html">Account</a>
+            <a class="nav-link active" href="{% url 'account' %}">Account</a>
           </li>
         </ul>
       </div>
 
     </div>
   </nav>
-  <!-- End Nav-->
+  <!-- End NAVBAR -->
 
+  <!-- Main Content -->
   <div class="container d-flex flex-column align-items-center main-content">
-   <body>
-  <div class="confidence-buttons d-flex justify-content-center">
-    <div class="confidence-level text-center mx-2">
-      <div class="confidence-container">
-        <button class="confidence-button" style="color: #87CEFA;" onclick="incrementCount(this)">0</button>
-        <div style="color: #87CEFA; font-size: 0.8em;" onclick="incrementCount(this.previousElementSibling)">Confident</div>
+    <!-- Confidence Buttons -->
+    <div class="confidence-buttons d-flex justify-content-center">
+      <div class="confidence-level text-center mx-2">
+        <div class="confidence-container">
+          <button class="confidence-button" onclick="incrementCount(this, 'Confident')">0</button>
+          <div onclick="incrementCount(this.previousElementSibling, 'Confident')">Confident</div>
+        </div>
+      </div>
+      <div class="confidence-level text-center mx-2">
+        <div class="confidence-container">
+          <button class="confidence-button" onclick="incrementCount(this, 'Good')">0</button>
+          <div onclick="incrementCount(this.previousElementSibling, 'Good')">Good</div>
+        </div>
+      </div>
+      <div class="confidence-level text-center mx-2">
+        <div class="confidence-container">
+          <button class="confidence-button" onclick="incrementCount(this, 'Needs Work')">0</button>
+          <div onclick="incrementCount(this.previousElementSibling, 'Needs Work')">Needs Work</div>
+        </div>
+      </div>
+      <div class="confidence-level text-center mx-2">
+        <div class="confidence-container">
+          <button class="confidence-button" onclick="incrementCount(this, 'Again')">0</button>
+          <div onclick="incrementCount(this.previousElementSibling, 'Again')">Again</div>
+        </div>
       </div>
     </div>
-    <div class="confidence-level text-center mx-2">
-      <div class="confidence-container">
-        <button class="confidence-button" style="color: #32CD32;" onclick="incrementCount(this)">0</button>
-        <div style="color: #32CD32; font-size: 0.8em;" onclick="incrementCount(this.previousElementSibling)">Good</div>
-      </div>
-    </div>
-    <div class="confidence-level text-center mx-2">
-      <div class="confidence-container">
-        <button class="confidence-button" style="color: #FFD700;" onclick="incrementCount(this)">0</button>
-        <div style="color: #FFD700; font-size: 0.8em;" onclick="incrementCount(this.previousElementSibling)">Needs Work</div>
-      </div>
-    </div>
-    <div class="confidence-level text-center mx-2">
-      <div class="confidence-container">
-        <button class="confidence-button" style="color: #FF6347;" onclick="incrementCount(this)">0</button>
-        <div style="color: #FF6347; font-size: 0.8em;" onclick="incrementCount(this.previousElementSibling)">Again</div>
-      </div>
-    </div>
-  </div>
-  <p class="mt-3" style="color: #ffffff">Number of reviews this session: <span id="flipCounter">0</span></p>
+    <p class="mt-3" style="color: #ffffff">Number of reviews this session: <span id="flipCounter">0</span></p>
 
-
-
-    <!-- Card 1 -->
-    <div class="card" id="card-1">
+    <!-- Dynamically generate cards from the database -->
+    {% if cards %}
+      {% for card in cards %}
+      <div class="card" id="card-{{ forloop.counter }}" data-card-id="{{ card.id }}">
         <!-- Front of the card -->
         <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-          <p class="card-text">Card 1</p> 
+          <p class="card-text">{{ card.front_text }}</p>
         </div>
-  
+
         <!-- Back of the card -->
         <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-          <p> back of card 1</p>
+          <p>{{ card.back_text }}</p>
         </div>
-      </div> 
-
-    <!-- Card 2 -->
-    <div class="card" id="card-2">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 2</p>
       </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 2</p>
-      </div>
-    </div>
-
-
-    <!-- Card 3 -->
-    <div class="card" id="card-3">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 3</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 3</p>
-      </div>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="card" id="card-4">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 4</p>
-      </div>
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 4</p>
-      </div>
-    </div>
-    
-
-    <!-- Card 5 -->
-    <div class="card" id="card-5">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 5</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 5</p>
-      </div>
-    </div>
-    
-
-    <!-- Card 6 -->
-    <div class="card" id="card-6">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 6</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 6</p>
-      </div>
-    </div>
-    
+      {% endfor %}
+    {% else %}
+      <p style="color: #ffffff">No cards available in this deck.</p>
+    {% endif %}
 
   </div>
+  <!-- End Main Content -->
 
   <!-- Footer -->
   <div class="container-fluid mt-5" id="footer">
@@ -247,9 +130,9 @@
     </div>
     <div class="row mb-1">
       <div class="col d-flex justify-content-center" id="footerLogos">
-        <img class="img-fluid mx-1" src="facebook-icon.png" style="width: 25px; height: 25px" alt="Facebook">
-        <img class="img-fluid mx-1" src="instagram-icon.png" style="width: 25px; height: 25px" alt="Instagram">
-        <img class="img-fluid mx-1" src="x-icon.png" style="width: 25px; height: 25px" alt="X">
+        <img class="img-fluid mx-1" src="{% static 'facebook-icon.png' %}" style="width: 25px; height: 25px" alt="Facebook">
+        <img class="img-fluid mx-1" src="{% static 'instagram-icon.png' %}" style="width: 25px; height: 25px" alt="Instagram">
+        <img class="img-fluid mx-1" src="{% static 'x-icon.png' %}" style="width: 25px; height: 25px" alt="X">
       </div>
     </div>
     <div class="row">
@@ -260,77 +143,279 @@
   </div>
   <!-- End Footer -->
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-</script>
-<script>
-  let flipCount = 0;
-  let currentIndex = 0;
-  const cards = document.querySelectorAll('.card');
-  let confidenceSelections = {}; // Object to track selections per card
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+  <script>
+    let flipCount = 0;
+    let currentIndex = 0;
+    let cards = Array.from(document.querySelectorAll('.card'));
+    let confidenceCounts = {};
+    let deckCycle = 1;
 
-  cards.forEach((card, index) => {
-    if (index !== 0) {
-      card.classList.add('hidden');
+    // Confidence level mapping
+    const confidenceLevels = {
+      'Confident': 1,
+      'Good': 2,
+      'Needs Work': 3,
+      'Again': 4,
+      'Unrated': 3  // Default value
+    };
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
     }
-  });
+    const csrfToken = getCookie('csrftoken');
 
-  document.addEventListener("keydown", function (event) {
-    if (event.code === "Enter") {
-      event.preventDefault();
-      cards[currentIndex].classList.add('hidden');
-      currentIndex = (currentIndex + 1) % cards.length;
-      cards[currentIndex].classList.remove('hidden');
+    // Initialize cards
+    cards.forEach((card, index) => {
+      card.style.zIndex = cards.length - index;
+      if (index !== 0) {
+        card.classList.add('hidden');
+      }
+    });
 
-      if (currentIndex === 0) {
-        flipCount = 0;
+    // Event listener for keydown (flip card with spacebar)
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "Space") {
+        event.preventDefault();
+        const card = cards[currentIndex];
+        card.classList.toggle("flip");
+        flipCount++;
         document.getElementById("flipCounter").textContent = flipCount;
       }
-
-      // No need to reset confidenceSelections here
-    }
-
-    if (event.code === "Space") {
-      event.preventDefault();
-      const card = cards[currentIndex];
-      const backNumbers = card.nextElementSibling;
-      card.classList.toggle("flip");
-
-      if (backNumbers && backNumbers.classList.contains("back-numbers")) {
-        backNumbers.classList.toggle("hidden");
+      if (event.code === "Enter") {
+        event.preventDefault();
+        alert('Please select a confidence level before proceeding.');
       }
+    });
 
-      flipCount++;
-      document.getElementById("flipCounter").textContent = flipCount;
-    }
-  });
-
-  function incrementCount(button) {
-    const key = currentIndex; // Use currentIndex as the key for the current card
-
-    if (!confidenceSelections[key]) {
+    function incrementCount(button, confidenceLevel) {
       const currentValue = parseInt(button.textContent);
       button.textContent = currentValue + 1;
-      confidenceSelections[key] = true; // Mark this card as having a selection
-    } else {
-      alert("You can only select one confidence level per card.");
-    }
-  }
 
-  function adjustFontSize() {
-    const box = document.querySelector(".prototype-box .card-text");
-    let fontSize = 24;
-    box.style.fontSize = `${fontSize}px`;
-    while (box.scrollHeight > box.clientHeight) {
-      fontSize -= 1;
-      box.style.fontSize = `${fontSize}px`;
-    }
-  }
+      const currentCard = cards[currentIndex];
+      const cardId = currentCard.id;
 
-  document.addEventListener("DOMContentLoaded", adjustFontSize);
-  window.addEventListener("resize", adjustFontSize);
-</script>
+      if (!confidenceCounts[cardId]) {
+        confidenceCounts[cardId] = {
+          'Confident': 0,
+          'Good': 0,
+          'Needs Work': 0,
+          'Again': 0
+        };
+      }
+      confidenceCounts[cardId][confidenceLevel] += 1;
+      if (deckCycle === 1) {
+        moveToNextCard();
+      } else {
+        if (confidenceLevel === 'Confident' && confidenceCounts[cardId]['Confident'] >= 3) {
+          displayStars(currentCard);
+
+          setTimeout(function () {
+            cards.splice(currentIndex, 1);
+
+            currentCard.parentNode.removeChild(currentCard);
+
+            if (currentIndex >= cards.length) {
+              currentIndex = 0;
+            }
+
+            if (cards.length > 0) {
+              cards.forEach((card, index) => {
+                card.style.zIndex = cards.length - index;
+                card.classList.toggle('hidden', index !== currentIndex);
+              });
+            } else {
+              alert('Congratulations! You have completed the study session.');
+            }
+          }, 2000);
+        } else {
+
+          cards.splice(currentIndex, 1);
+
+          let newPosition;
+          if (confidenceLevel === 'Again') {
+            newPosition = currentIndex + 1;
+          } else if (confidenceLevel === 'Needs Work') {
+            newPosition = currentIndex + 3;
+          } else if (confidenceLevel === 'Good') {
+            newPosition = currentIndex + 5;
+          } else if (confidenceLevel === 'Confident') {
+            newPosition = cards.length;
+          } else {
+            newPosition = cards.length;
+          }
+
+          if (newPosition > cards.length) {
+            newPosition = cards.length;
+          }
+
+          cards.splice(newPosition, 0, currentCard);
+
+          const cardContainer = document.querySelector('.main-content');
+          cards.forEach(card => {
+            cardContainer.appendChild(card);
+          });
+
+          currentCard.classList.remove('flip');
+
+          if (newPosition <= currentIndex) {
+            currentIndex++;
+          }
+          if (currentIndex >= cards.length) {
+            currentIndex = 0;
+          }
+
+          cards.forEach((card, index) => {
+            card.style.zIndex = cards.length - index;
+            card.classList.toggle('hidden', index !== currentIndex);
+          });
+        }
+      }
+
+      if (currentIndex === 0) {
+        deckCycle++;
+        if (deckCycle === 2) {
+          reshuffleDeck();
+        }
+      }
+    }
+
+    function moveToNextCard() {
+      cards[currentIndex].classList.add('hidden');
+      currentIndex++;
+
+      if (currentIndex >= cards.length) {
+        currentIndex = 0;
+        deckCycle++;
+
+        if (deckCycle === 2) {
+          reshuffleDeck();
+        }
+      }
+
+      cards.forEach((card, index) => {
+        card.classList.toggle('hidden', index !== currentIndex);
+      });
+    }
+
+    function reshuffleDeck() {
+      // Map card indices to confidence levels
+      const cardData = cards.map((card) => {
+        const cardId = card.dataset.cardId;
+        const confidenceData = confidenceCounts[card.id] || {};
+        const confidenceLevelStr = getCardConfidenceLevel(confidenceData);
+        const confidenceValue = confidenceLevels[confidenceLevelStr];
+
+        return {
+          card: card,
+          card_id: cardId,
+          confidenceLevelStr: confidenceLevelStr,
+          confidenceValue: confidenceValue
+        };
+      });
+
+      // Sort the cards based on confidence levels
+      cardData.sort((a, b) => a.confidenceValue - b.confidenceValue);
+
+      // Update the cards array and DOM
+      cards = cardData.map(data => data.card);
+      const cardContainer = document.querySelector('.main-content');
+      cards.forEach(card => cardContainer.appendChild(card));
+
+      // Reset states
+      currentIndex = 0;
+      cards.forEach((card, index) => {
+        card.style.zIndex = cards.length - index;
+        card.classList.remove('flip');
+        card.classList.toggle('hidden', index !== currentIndex);
+      });
+
+      // Prepare data to send to the server
+      const cardUpdates = cardData.map(data => ({
+        card_id: data.card_id,
+        confidence_level: data.confidenceValue
+      }));
+
+      // Send data to the server
+      updateCardOrder(cardUpdates);
+    }
+
+    function getCardConfidenceLevel(confidenceData) {
+      let maxCount = 0;
+      let maxConfidence = 'Unrated';
+
+      for (const level in confidenceData) {
+        if (confidenceData[level] > maxCount) {
+          maxCount = confidenceData[level];
+          maxConfidence = level;
+        }
+      }
+
+      return maxConfidence;
+    }
+
+    function updateCardOrder(cardUpdates) {
+      fetch("{% url 'update_card_order' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ card_updates: cardUpdates })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Card order updated:', data);
+        })
+        .catch((error) => {
+          console.error('Error updating card order:', error);
+        });
+    }
+
+    function displayStars(card) {
+      const overlay = document.createElement('div');
+      overlay.classList.add('star-overlay');
+
+      const starContent = document.createElement('div');
+      starContent.classList.add('stars');
+      starContent.innerHTML = '⭐️⭐️⭐️';
+
+      overlay.appendChild(starContent);
+
+      card.appendChild(overlay);
+    }
+
+    function adjustFontSize() {
+      const box = document.querySelector(".prototype-box .card-text");
+      if (box) {
+        let fontSize = 24;
+        box.style.fontSize = `${fontSize}px`;
+        while (box.scrollHeight > box.clientHeight && fontSize > 0) {
+          fontSize -= 1;
+          box.style.fontSize = `${fontSize}px`;
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", adjustFontSize);
+    window.addEventListener("resize", adjustFontSize);
+  </script>
 
 </body>
 
