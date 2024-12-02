@@ -76,12 +76,14 @@
           </div>
         </form>
         
-        <div class="row d-flex justify-content-center my-3">
-          <div class="col d-flex justify-content-center">
-            <button id="logoutButton" type="submit">Log Out</button>
+        <form method="POST" action="{% url 'logout' %}">
+          <div class="row d-flex justify-content-center my-3">
+            {% csrf_token %}
+            <div class="col d-flex justify-content-center">
+              <button id="logoutButton" type="submit">Log Out</button>
+            </div>
           </div>
-        </div>
-
+        </form>
         <form method="GET" action="{% url 'delete_account' %}">
           <div class="row d-flex justify-content-center my-2 mb-5">
             <div class="col d-flex justify-content-center">
