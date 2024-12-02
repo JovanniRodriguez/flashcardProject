@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <!-- templates/flashdeck/signIn.html-->
+=======
+<!-- templates/flashdeck/signIn.html--> 
+>>>>>>> Emma
 {% load static %}
 <html lang="en">
 
@@ -32,6 +36,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
+<<<<<<< HEAD
           <a class="nav-link active" aria-current="page" href="home">Home</a>
         </li>
 
@@ -50,6 +55,9 @@
 
         <li class="nav-item">
           <a class="nav-link active" href="account">Account</a>
+=======
+          <a class="nav-link active" href="{% url 'account' %}">Account</a>
+>>>>>>> Emma
         </li>
       </ul>
     </div>
@@ -73,6 +81,7 @@
   <!--END-->
 
   <!--SUBHEADER-->
+<<<<<<< HEAD
   <div class="container pt-3 mb-5 pb-5">
     <div class="row">
       <div class="col d-flex justify-content-center">
@@ -104,6 +113,52 @@
       </div>
     </div>
   </div>
+=======
+  {% block content %}
+  <div class="container pt-3 mb-5 pb-5">
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <form method="POST" action="{% url 'signIn' %}">
+          {% csrf_token %}
+          <div class="form-group mb-5"> <!-- username-->
+              <label for="usernameInput">Username</label>
+              <input type="text" name="username" class="form-control" placeholder="Enter your username" id="usernameInput" required>
+          </div>
+      
+          <div class="form-group"> <!-- password -->
+              <label for="passwordInput">Password</label>
+              <input type="password" name="password" class="form-control" placeholder="Enter your password" id="passwordInput" required>
+          </div>
+
+          {% if form.errors %}
+              <div class="alert alert-danger">
+                  <ul>
+                      {% for error in form.errors.values %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+      
+          <div class="container mt-1 mb-5 pt-3">
+              <div class="row mt-5">
+                  <div class="col d-flex justify-content-center text-center">
+                      <button type="submit" class="btn">Sign In</button>
+                  </div>
+              </div>
+              <div class="row mt-4 mb-5">
+                  <div class="col d-flex justify-content-center text-center" style="font-size: 13px; font-weight: 100;">
+                      <p class="d-inline me-1 text-white">Don't have an account?</p>
+                      <a href="{% url 'register' %}" class="d-inline">Register</a>
+                  </div>
+              </div>
+          </div>
+        </form>      
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+>>>>>>> Emma
   <!--END--> 
 
   
