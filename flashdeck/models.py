@@ -19,6 +19,7 @@ class CardSet(models.Model):
     description = models.CharField(max_length=500, default=None)
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # numCards = models.IntegerField(default=None)
 
     def __str__(self):
         return self.name
