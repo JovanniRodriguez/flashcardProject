@@ -17,14 +17,15 @@ urlpatterns = [
     ),
     path('set/<int:set_id>/', views.flashcard_list, name='flashcard_list'),
     path('set/<int:set_id>/add/', views.add_flashcard, name='add_flashcard'),
-    path('my-decks', views.myDecks, name='cardset_list'),
+    path('my-decks', views.my_decks, name='cardset_list'),
     path('create-deck', views.createDeck, name='add_cardset'),
     path('login/', LoginView.as_view(template_name='flashdeck/home.html'), name='login'),
-    path('cardset/<int:cardset_id>/edit/', views.edit_cardset, name='edit_cardset'),
-    path('study/', views.study, name="study"),
+    path('study/<int:deck>', views.study, name="study"),
     path('quiz', views.quiz, name="quiz"),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('delete-account/', views.delete_account, name='delete_account'),
-
+    path('cardset/<int:cardset_id>/edit/', views.edit_cardset_details, name='edit_cardset_details'),
+    path('cardset/<int:cardset_id>/edit/cards/', views.edit_flashcards, name='edit_flashcards'),
+    path('cardset/<int:deck_id>/delete/', views.delete_deck, name='delete_deck'),
 
 ]

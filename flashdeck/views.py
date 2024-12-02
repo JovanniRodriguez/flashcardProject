@@ -47,42 +47,73 @@ def home(request):
     return render(request, "flashdeck/home.html")
 
 @login_required
-def edit_cardset(request, cardset_id):
+def edit_cardset_details(request, cardset_id):
+    cardset = get_object_or_404(CardSet, id=cardset_id, user=request.user)
+    sets = CardSet.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        cardset_form = CardsetForm(request.POST, instance=cardset)
+        if cardset_form.is_valid():
+            cardset_form.save()
+            return redirect('cardset_list')  # or the relevant redirect
+        else:
+            # If form isn't valid, log or print to see the errors
+            print(cardset_form.errors)  # Check for validation errors
+    else:
+        cardset_form = CardsetForm(instance=cardset)
+
+    context = {
+        'cardset_form': cardset_form,
+        'sets': sets,
+    }
+    return render(request, 'flashdeck/myDecks.html', context)
+
+
+@login_required
+def edit_flashcards(request, cardset_id):
     cardset = get_object_or_404(CardSet, id=cardset_id, user=request.user)
     cards = cardset.cards.all()
 
     if request.method == 'POST':
-        cardset_form = CardsetForm(request.POST, instance=cardset)
         card_forms = [FlashcardForm(request.POST, prefix=str(card.id), instance=card) for card in cards]
-
-        if cardset_form.is_valid() and all(form.is_valid() for form in card_forms):
-            cardset_form.save()
+        if all(form.is_valid() for form in card_forms):
             for form in card_forms:
                 form.save()
             return redirect('cardset_detail', cardset_id=cardset.id)
     else:
-        cardset_form = CardsetForm(instance=cardset)
         card_forms = [FlashcardForm(prefix=str(card.id), instance=card) for card in cards]
 
     context = {
-        'cardset_form': cardset_form,
+        'cardset': cardset,
         'card_forms': card_forms,
     }
-    return render(request, 'flashdeck/edit_cardset.html', context)
+    return render(request, 'flashdeck/edit_flashcards.html', context)
+
 
 def account(request):
     return render(request, "flashdeck/account.html")
 
-def study(request):
-    return render(request, 'flashdeck/study.html')
+def study(request, deck):
+    deck_instance = get_object_or_404(CardSet, id=deck)
 
-def quiz(request):
-    return render(request, 'flashdeck/quiz.html')
+    return render(request, 'flashdeck/study.html', {'deck': deck_instance})
+
+def quiz(request, deck):
+    deck_instance = get_object_or_404(CardSet, id=deck)
+
+    return render(request, 'flashdeck/quiz.html', {'deck': deck_instance})
 
 @login_required
-def myDecks(request):
-    user_decks = CardSet.objects.filter(user=request.user)
-    return render(request, 'flashdeck/myDecks.html', {'sets' : user_decks}) # replace ... with html page that lists the card sets
+def my_decks(request):
+    decks = CardSet.objects.filter(user=request.user)  # Or filter for specific decks
+    return render(request, 'flashdeck/myDecks.html', {'sets': decks})
+
+def delete_deck(request, deck_id):
+    deck = get_object_or_404(CardSet, id=deck_id)
+    if request.method == 'POST':
+        deck.delete()
+        return redirect('cardset_list')  # Redirect to the list of decks after deletion
+    return render(request, 'confirm_delete.html', {'deck': deck})
 
 @login_required
 def createDeck(request):

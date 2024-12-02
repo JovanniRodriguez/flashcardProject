@@ -146,7 +146,7 @@ form a:hover{
   background-color: #A4E3FF !important;
 }
 
-.studyButton, .editDeckButton, .deleteDeckButton{
+.studyButton, .editDeckButton, .deleteDeckButton, .quizButton{
   width: 200px !important;
 }
 .deleteDeckButton:hover{
