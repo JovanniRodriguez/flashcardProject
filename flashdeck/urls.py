@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView, PasswordChangeDoneView, PasswordChangeView
+from django.contrib.auth.views import LoginView, PasswordChangeDoneView, PasswordChangeView, LogoutView
 from .views import ChangePasswordView, RegisterView
 from . import views
 
@@ -20,6 +20,7 @@ urlpatterns = [
     path('my-decks', views.my_decks, name='cardset_list'),
     path('create-deck', views.createDeck, name='add_cardset'),
     path('login/', LoginView.as_view(template_name='flashdeck/home.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('study/<int:deck>', views.study, name="study"),
     path('quiz', views.quiz, name="quiz"),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
