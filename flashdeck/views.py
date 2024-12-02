@@ -91,7 +91,13 @@ def edit_flashcards(request, cardset_id):
 
 
 def account(request):
-    return render(request, "flashdeck/account.html")
+    if request.method == "POST" and "confirm_delete" in request.POST:
+        # Delete the user if the confirmation flag is present
+        request.user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect('index')  # Redirect to a safe page
+    else:
+        return render(request, "flashdeck/account.html")
 
 def study(request, deck):
     deck_instance = get_object_or_404(CardSet, id=deck)
@@ -157,7 +163,7 @@ def delete_account(request):
         # Delete the user if the confirmation flag is present
         request.user.delete()
         messages.success(request, "Your account has been deleted.")
-        return redirect('index')  # Redirect to a safe page
+        return redirect('sign-in')  # Redirect to a safe page
 
     # If the request is GET or no confirmation flag, show the confirmation page
     return render(request, 'flashdeck/delete_account.html')

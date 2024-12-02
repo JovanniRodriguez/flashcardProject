@@ -338,7 +338,7 @@ form a:hover{
     border-radius: 100px; 
 }
 
-#changePasswordButton, #logoutButton{
+.changePasswordButton, #logoutButton{
     background-color: #A4E3FF;
     border-radius: 5px;
     outline: none;
@@ -350,13 +350,13 @@ form a:hover{
     padding: 5px 5px;
     transition: background-color 0.3s ease;
 }
-#changePasswordButton:hover, #logoutButton:hover{
+.changePasswordButton:hover, #logoutButton:hover{
   background-color: #84b8ce;
 }
 
 
 
-#deleteAccountButton{
+.deleteAccountButton{
     background-color: #a4e3ff;
     border-radius: 5px;
     outline: none;
@@ -368,7 +368,7 @@ form a:hover{
     padding: 5px 5px;
     transition: background-color 0.3s ease;
 }
-#deleteAccountButton:hover{
+.deleteAccountButton:hover{
   background-color: red;
 }
 

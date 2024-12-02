@@ -39,19 +39,20 @@
           </li>
         </ul>
       </div>
-  
+
     </div>
   </nav>
   <!--END-->
 
 
-  <div class="row mt-5 pt-3"></div> <!--spacing-->
+  <div class="row mt-5 pt-3"></div>
+  <!--spacing-->
 
-  
+
   <div class="container mt-5 pt-5">
     <!-- my account header-->
     <div class="row mb-4">
-        <h1 class="text-white">My Account</h1>
+      <h1 class="text-white">My Account</h1>
     </div>
     <!--my account header end-->
 
@@ -59,8 +60,9 @@
       <!--account info-->
       <div class="col-5 text-white justify-content-center" id="accountInfoCol">
         <div class="row d-flex justify-content-center my-5">
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
-           alt="img" id="pfp">
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+            alt="img" id="pfp">
         </div>
 
         {% block content %}
@@ -71,26 +73,76 @@
         <form method="GET" action="{% url 'change_password' %}">
           <div class="row d-flex justify-content-center mt-5 pt-5">
             <div class="col d-flex justify-content-center">
-              <button id="changePasswordButton" type="submit">Change Password</button>
+              <button class="changePasswordButton" type="submit">Change Password</button>
             </div>
           </div>
         </form>
+
+
+        <div class="row d-flex justify-content-center my-3">
+          <div class="col d-flex justify-content-center">
+            <button id="logoutButton" data-bs-toggle="modal" data-bs-target="#logoutModal">Log Out</button>
+          </div>
+        </div>
+        </form>
+
         
-        <form method="POST" action="{% url 'logout' %}">
-          <div class="row d-flex justify-content-center my-3">
-            {% csrf_token %}
-            <div class="col d-flex justify-content-center">
-              <button id="logoutButton" type="submit">Log Out</button>
-            </div>
-          </div>
-        </form>
-        <form method="GET" action="{% url 'delete_account' %}">
           <div class="row d-flex justify-content-center my-2 mb-5">
             <div class="col d-flex justify-content-center">
-              <button id="deleteAccountButton" type="submit">Delete Account</button>
+              <button class="deleteAccountButton" data-bs-toggle="modal" 
+              data-bs-target="#deleteAccountModal">Delete Account</button>
             </div>
           </div>
-        </form>        
+        </form>
+
+        <!--log out modal-->
+        <form method="POST" action="{% url 'logout' %}">
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content p-3">
+                <div class="modal-body">
+                  {% csrf_token %}
+                  <h5 class="modal-header border-0">Are you sure you want to log out?</h5>
+
+                  <div class="row d-flex">
+                    <div class="col d-flex justify-content-end">
+                      <button type="button" class="changePasswordButton" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                      <button type="submit" class="changePasswordButton">Log Out</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!--log out modal end-->
+
+        <!--delete account modal-->
+        <form method="POST" action="{% url 'account' %}">
+          <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content p-3">
+                <div class="modal-body">
+                  {% csrf_token %}
+                  <h5 class="modal-header border-0 text-start">Are you sure you want to <br> delete your account?</h5>
+                  <h5 class="modal-header border-0" text-start>This action cannot be undone.</h5>
+
+                  <div class="row d-flex">
+                    <div class="col d-flex justify-content-end">
+                      <button type="button" class="changePasswordButton" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                      <button type="submit" name="confirm_delete" class="deleteAccountButton">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!--delete account modal end-->
 
         {% endblock %}
       </div>
@@ -108,39 +160,48 @@
 
   <!--FOOTER-->
   <div class="container-fluid" id="footer">
-    <div class="row"> <!--flashdeck-->
+    <div class="row">
+      <!--flashdeck-->
       <div class="col text-center text-white">
         <p id="footerHeader">FLASHDECK</p>
       </div>
     </div>
 
-    <div class="row"> <!--lorem ipsum-->
-      <div class="col text-center text-white"> 
+    <div class="row">
+      <!--lorem ipsum-->
+      <div class="col text-center text-white">
         <div id="footerLoremIpsum">
           <p>Lorem Ipsum dolor sit amet consectetur adipisicing elit. Ratione veniam</p>
           <p>amet autem sunt. perspiciatis nemo.</p>
-        </p>
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="row mb-1"> <!-- social media logos -->
-      <div class="col d-flex justify-content-center" id="footerLogos">
-        <a href="https://www.facebook.com/"><img class="img-fluid mx-1" src="{% static 'flashdeck/images/facebook-icon.png' %}" style="width: 25px; height: 25px" alt="Facebook"></a>
-        <a href="https://www.instagram.com"><img class="img-fluid mx-1" src="{% static 'flashdeck/images/instagram-icon.png' %}" style="width: 25px; height: 25px" alt="Instagram"></a>
-        <a href="https://twitter.com/"><img class="img-fluid mx-1" src="{% static 'flashdeck/images/x-icon.png' %}" style="width: 25px; height: 25px" alt="X"></a>
+      <div class="row mb-1">
+        <!-- social media logos -->
+        <div class="col d-flex justify-content-center" id="footerLogos">
+          <a href="https://www.facebook.com/"><img class="img-fluid mx-1"
+              src="{% static 'flashdeck/images/facebook-icon.png' %}" style="width: 25px; height: 25px"
+              alt="Facebook"></a>
+          <a href="https://www.instagram.com"><img class="img-fluid mx-1"
+              src="{% static 'flashdeck/images/instagram-icon.png' %}" style="width: 25px; height: 25px"
+              alt="Instagram"></a>
+          <a href="https://twitter.com/"><img class="img-fluid mx-1" src="{% static 'flashdeck/images/x-icon.png' %}"
+              style="width: 25px; height: 25px" alt="X"></a>
+        </div>
       </div>
-    </div>
 
-    <div class="row"> <!-- legal -->
-      <div class="col d-flex text-white justify-content-center">
-        <p id="footerLegal">© 2024 FlashDeck | All Rights Reserved</p>
+      <div class="row">
+        <!-- legal -->
+        <div class="col d-flex text-white justify-content-center">
+          <p id="footerLegal">© 2024 FlashDeck | All Rights Reserved</p>
+        </div>
       </div>
     </div>
-  </div>
-  <!--END-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-  </script>
+    <!--END-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
