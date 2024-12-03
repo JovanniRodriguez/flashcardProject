@@ -147,7 +147,7 @@ form a:hover{
   background-color: #A4E3FF !important;
 }
 
-.studyButton, .editDeckButton, .deleteDeckButton, .quizButton{
+.studyButton, .editDeckButton, .deleteDeckButton, .quizButton, .addCardsButton{
   width: 200px !important;
 }
 .deleteDeckButton:hover{
@@ -326,7 +326,9 @@ form a:hover{
     cursor: pointer;
 }
 
-
+#deckDescription{
+  height: 100px !important;
+}
 /* account.html */
 
 #accountInfoCol{
