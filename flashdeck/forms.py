@@ -5,7 +5,7 @@ from .models import Card, CardSet, CustomUser
 class FlashcardForm(forms.ModelForm):
     class Meta:
         model = Card
-        fields = ['question', 'answer', 'img', 'audio']
+        fields = ['question', 'answer']
 
 class CardsetForm(forms.ModelForm):
     class Meta:

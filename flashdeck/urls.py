@@ -22,7 +22,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='flashdeck/home.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('study/<int:deck>', views.study, name="study"),
-    path('quiz', views.quiz, name="quiz"),
+    path('quiz/<int:deck>', views.quiz, name="quiz"),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('delete-account/', views.delete_account, name='delete_account'),
     path('cardset/<int:cardset_id>/edit/', views.edit_cardset_details, name='edit_cardset_details'),
