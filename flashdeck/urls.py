@@ -23,6 +23,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('study/<int:deck>', views.study, name="study"),
     path('quiz/<int:deck>', views.quiz, name="quiz"),
+    path('quiz/api/quiz-cards/<int:deck>/', views.get_quiz_cards, name='get_quiz_cards'),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('delete-account/', views.delete_account, name='delete_account'),
     path('cardset/<int:cardset_id>/edit/', views.edit_cardset_details, name='edit_cardset_details'),

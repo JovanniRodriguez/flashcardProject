@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import CardSet, Card, CustomUser
+from .models import CardSet, Card
 from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, ChangePasswordForm
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib import messages
 # Create your views here.
 
@@ -55,7 +53,7 @@ def edit_cardset_details(request, cardset_id):
         cardset_form = CardsetForm(request.POST, instance=cardset)
         if cardset_form.is_valid():
             cardset_form.save()
-            return redirect('cardset_list') 
+            return redirect('cardset_list')  
         else:
             # If form isn't valid, log or print to see the errors
             print(cardset_form.errors)  # Check for validation errors
@@ -70,16 +68,24 @@ def edit_cardset_details(request, cardset_id):
 
 
 @login_required
-def edit_flashcards(request, set_id):
-    flashcard_set = get_object_or_404(CardSet, id=set_id, user=request.user)
-    if request.method == 'POST' and request.POST.get('action') == 'edit':
-        card_id = request.POST.get('card_id')
-        card = get_object_or_404(Card, id=card_id, card_setNumber=flashcard_set)
-        card.question = request.POST.get('question')
-        card.answer = request.POST.get('answer')
-        card.save()
-        return JsonResponse({'status': 'success'})  # Return success response
-    return render(request, 'flashdeck/edit_flashcards.html', {'flashcard_set': flashcard_set})
+def edit_flashcards(request, cardset_id):
+    cardset = get_object_or_404(CardSet, id=cardset_id, user=request.user)
+    cards = cardset.cards.all()
+
+    if request.method == 'POST':
+        card_forms = [FlashcardForm(request.POST, prefix=str(card.id), instance=card) for card in cards]
+        if all(form.is_valid() for form in card_forms):
+            for form in card_forms:
+                form.save()
+            return redirect('cardset_detail', cardset_id=cardset.id)
+    else:
+        card_forms = [FlashcardForm(prefix=str(card.id), instance=card) for card in cards]
+
+    context = {
+        'cardset': cardset,
+        'card_forms': card_forms,
+    }
+    return render(request, 'flashdeck/edit_flashcards.html', context)
 
 
 def account(request):
@@ -100,6 +106,11 @@ def quiz(request, deck):
     deck_instance = get_object_or_404(CardSet, id=deck)
 
     return render(request, 'flashdeck/quiz.html', {'deck': deck_instance})
+
+def get_quiz_cards(request, deck):
+    flashcard_set = get_object_or_404(CardSet, id=deck, user=request.user)
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
+    return JsonResponse({'cards': list(cards)})
 
 @login_required
 def my_decks(request):
@@ -138,7 +149,7 @@ def flashcard_list(request, set_id):
 @login_required
 def add_flashcard(request, set_id):
     flashcard_set = get_object_or_404(CardSet, id=set_id, user=request.user)
-    if request.method == "POST" and request.POST.get('action') == 'add':
+    if request.method == "POST":
         question = request.POST.get('question')
         answer = request.POST.get('answer')
         #image = request.FILES.get('image')
@@ -152,9 +163,9 @@ def add_flashcard(request, set_id):
             #img=image if image else None,
             #audio=audio if audio else None
         )
-        return JsonResponse({'status': 'success'});
+        return redirect('edit_flashcards', set_id=set_id)
 
-    return render(request, 'flashdeck/create-card.html', {'flashcard_set': flashcard_set})
+    return render(request, 'flashdeck/myDecks.html', {'flashcard_set': flashcard_set})
 
 @login_required
 def delete_account(request):

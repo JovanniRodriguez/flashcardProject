@@ -218,81 +218,14 @@
                 </div>
               </div>
 
-              <!--media buttons-->
-              <!--<div class="row d-flex justify-content-center my-2">
-                <div class="col d-flex justify-content-center">
-                  <input type="file" id="imageUploadInput" name="img" accept="image/*" style="display: none;">
-                  <label for="imageUploadInput">
-                    <img src="{% static 'flashdeck/images/upload-image-icon.png' %}" alt="Image" id="uploadImage"
-                      style="cursor: pointer;">
-                  </label>
-
-                  <input type="file" id="audioUploadInput" name="audio" accept="audio/*" style="display: none;">
-                  <label for="audioUploadInput">
-                    <img src="{% static 'flashdeck/images/upload-audio-icon.png' %}" alt="Audio" id="uploadAudio"
-                      style="cursor: pointer;">
-                  </label>
-
-                </div>
-              </div>-->
-
               <div class="container mt-5 mb-5 pb-5 d-flex justify-content-center">
                 <button type="submit" class="addCardButton">Add / Save Card</button>
               </div>
             </form>
 
-            <!--card previews-->
-            <!--for each added card-->
-            {% if flashcards %}
-              {% for card in flashcards %}
-              <div class="container my-2 cardPreviewContainer">
-                <div class="row my-3">
-                  <!--<div class="col ms-2">
-                    <img class="imagePreview" src="{{ card.img.url }}" alt="Image Preview">
-                    <img class="playAudioIcon" src="{% static 'flashdeck/images/play-audio-icon.png' %}" alt="Play Audio" data-audio-url="{{ card.audio.url }}">
-                  </div>-->
-                  <div class="col mx-4">
-                    <div class="row text-white text-start">
-                      <h5>Term</h5>
-                    </div>
-                    <div class="row">
-                      <textarea class="previewTextInput" name="question">{{ card.question }}</textarea>
-                    </div>
-                  </div>
-                  <div class="col mx-4">
-                    <div class="row text-white text-start">
-                      <h5>Definition</h5>
-                    </div>
-                    <div class="row">
-                      <textarea class="previewTextInput" name="answer">{{ card.answer }}</textarea>
-                    </div>
-                  </div>
-                  <div class="col d-flex justify-content-end align-items-center">
-                    <div class="d-flex justify-content-center align-items-center">
-
-                      <img class="editCardIcon" src="{% static 'flashdeck/images/edit-card-icon.png' %}" alt="edit">
-
-
-                      <img class="deleteCardIcon" src="{% static 'flashdeck/images/trash-card-icon.png' %}" alt="delete">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            {% else %}
-                <div class="row text-white justify-content-center text-center">
-                  <p>No cards found for this set.</p>
-                </div>
-            {% endif %}
-            <!--card previews END-->
-
             <div class="row mt-4 pt-4">
               <div class="col d-flex justify-content-end">
                 <button type="button" class="btn closeModalButton" data-bs-dismiss="modal">Cancel</button>
-              </div>
-              <div class="col d-flex justify-content-start">
-                <button class="btn saveModalButton">Save Changes</button>
               </div>
             </div>
           </div>
