@@ -196,37 +196,47 @@
           resultsCard.classList.add('quiz-card');
           resultsCard.setAttribute('id', 'quiz-card-results');
           resultsCard.style.zIndex = totalCards - cardsData.length;
-    
+
           const resultsContent = document.createElement('div');
           resultsContent.classList.add('results-content');
-    
+
           const resultsP = document.createElement('p');
           resultsP.style.textAlign = 'center';
           resultsP.style.fontSize = '1.5em';
-    
+
           const tryAgainBtn = document.createElement('button');
           tryAgainBtn.classList.add('submit-btn');
           tryAgainBtn.textContent = 'Try Again';
-    
+          tryAgainBtn.setAttribute('style', `
+            background-color: #87CEFA;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;`
+          );
+          // lOL gotta write dirtty code to make things work sometimes
+
           resultsContent.appendChild(resultsP);
           resultsContent.appendChild(tryAgainBtn);
-    
+
           resultsCard.appendChild(resultsContent);
-    
+
           quizCardsContainer.appendChild(resultsCard);
-    
+
           resultsCard.classList.add('hidden');
-    
+
           window.resultsCard = resultsCard;
           window.resultsP = resultsP;
           window.tryAgainBtn = tryAgainBtn;
-    
+
           tryAgainBtn.addEventListener('click', () => {
             resetQuiz();
           });
         }
       }
-    
+          
       function showResultsCard() {
         const totalQuestions = cardsData.length;
         const percentage = Math.round((correctAnswers / totalQuestions) * 100);
@@ -282,7 +292,7 @@
           feedbackP.style.color = 'green';
           correctAnswers++;
         } else {
-          feedbackP.textContent = `Incorrect. The correct answer was: ${correctAnswer}`;
+          FeedbackP.innerHTML = 'Incorrect';
           feedbackP.style.color = 'red';
         }
     

@@ -528,182 +528,154 @@
         });
 
         document.querySelectorAll('.editCardsButton').forEach((button) => {
-          button.addEventListener('click', () => {
-            const deckId = button.getAttribute('data-deck-id');
-            console.log(`Edit Cards Deck ID: ${deckId}`);
+  button.addEventListener('click', async () => {
+    const deckId = button.dataset.deckId;
+    console.log(`Edit Cards Deck ID: ${deckId}`);
 
-            const editCardsModalElement = document.getElementById('editCardsModal');
+    try {
+      await fetchEditCards(deckId);
 
-            fetchEditCards(deckId);
-            const editCardsModal = new bootstrap.Modal(editCardsModalElement);
-            editCardsModal.show();
+      const editCardsModal = new bootstrap.Modal(document.getElementById('editCardsModal'));
+      editCardsModal.show();
 
-            const addCardsButton = document.querySelector('#editCardsModal .addCardsButton');
-            if (addCardsButton) {
-              addCardsButton.setAttribute('data-deck-id', deckId);
-            }
-
-            const editCardButton = document.querySelector('#editCardsModal .editCardButton');
-            if(editCardButton){
-              editCardButton.setAttribute('data-card-id', deckId);
-            }
-
-            const deleteCardButton = document.querySelector('#editCardsModal .deleteCardButton');
-            if(deleteCardButton){
-              deleteCardButton.setAttribute('data-card-id', deckId);
-            }
-
-          });
-        });
-
-        document.querySelectorAll('.editCardButton').forEach((button) => {
-          button.addEventListener('click', () => {
-            const cardContainer = button.closest('.cardPreviewContainer');
-            const cardId = cardContainer.getAttribute('data-card-id');
-            const question = cardContainer.querySelector('textarea[name="question_' + cardId + '"]').value;
-            const answer = cardContainer.querySelector('textarea[name="answer_' + cardId + '"]').value;
-            console.log('Cards are being edited');
-
-            // Send the updated data to the backend
-            fetch(`/card/${cardId}/edit/`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCsrfToken(), // Add CSRF token to the request
-              },
-              body: JSON.stringify({ question, answer }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.status === 'success') {
-                alert('Card updated successfully!');
-                // Optionally, you can update the UI with the new card values here
-              } else {
-                alert('Failed to update the card.');
-              }
-            })
-            .catch((error) => {
-              alert('Error updating the card.');
-              console.error('Error:', error);
-            });
-          });
-        });
-
-        // Helper function to get CSRF token
-        function getCsrfToken() {
-          return document.querySelector('[name=csrfmiddlewaretoken]').value;
-        }
-
-
-        document.querySelectorAll('.deleteCardButton').forEach((button) => {
-          button.addEventListener('click', () => {
-            const cardId = button.getAttribute('data-card-id');
-
-            if (confirm('Are you sure you want to delete this card?')) {
-              fetch(`/card/${cardId}/delete/`, {
-                method: 'DELETE',
-                headers: {
-                  'X-CSRFToken': getCsrfToken(),
-                },
-              })
-                .then((response) => {
-                  if (response.ok) {
-                    button.closest('.cardPreviewContainer').remove(); // Remove card from UI
-                    alert('Card deleted successfully!');
-                  } else {
-                    alert('Failed to delete the card.');
-                  }
-                });
-            }
-          });
-        });
-
-        // Helper to get CSRF token (adjust for your setup)
-        function getCsrfToken() {
-          return document.querySelector('[name=csrfmiddlewaretoken]').value;
-        }
-
-        async function fetchEditCards(deckId) {
-          console.log(`Fetch Edit Cards ID: ${deckId}`);
-
-          try {
-              // Fetch the cards from the API endpoint
-              const response = await fetch(`my-decks/api/flashcards/${deckId}/`);
-
-              if (!response.ok) {
-                  throw new Error(`Failed to fetch quiz cards: ${response.statusText}`);
-              }
-
-              const data = await response.json();
-              console.log('API Response:', data);
-
-              // Check if cards are available in the response
-              if (data.cards && data.cards.length > 0) {
-                  const cardsData = data.cards;  // Cards data
-                  console.log('Cards Data:', cardsData);
-                  
-                  // Initialize your quiz or modal with the cards data
-                  initializeCards(cardsData);  // Assuming this is a function that sets up the cards in your UI
-              } else {
-                  console.error('No cards found for this quiz.');
-                  alert('No cards available for this deck.');
-              }
-          } catch (error) {
-              console.error('Error fetching quiz cards:', error);
-              alert('An error occurred while fetching quiz cards.');
-          }
+      // Update Add Cards button
+      const addCardsButton = document.querySelector('#editCardsModal .addCardsButton');
+      if (addCardsButton) {
+        addCardsButton.dataset.deckId = deckId;
       }
+    } catch (error) {
+      console.error('Error initializing modal:', error);
+    }
+  });
+});
 
-      function initializeCards(cardsData) {
-          const modalBody = document.querySelector('#editCardsModal .modal-body');
-          modalBody.innerHTML = ''; 
-          cardsData.forEach((card) => {
-              const cardHTML = `
-                  <div class="container my-2 cardPreviewContainer" data-card-id="${card.id}">
-                      <div class="row my-3">
-                          <div class="col mx-4">
-                              <div class="row text-white text-start">
-                                  <h5>Term</h5>
-                              </div>
-                              <div class="row">
-                                  <textarea class="previewTextInput" name="question_${card.id}">${card.question}</textarea>
-                              </div>
-                          </div>
-                          <div class="col mx-4">
-                              <div class="row text-white text-start">
-                                  <h5>Definition</h5>
-                              </div>
-                              <div class="row">
-                                  <textarea class="previewTextInput" name="answer_${card.id}">${card.answer}</textarea>
-                              </div>
-                          </div>
-                          <div class="col d-flex justify-content-end align-items-center">
-                              <button class="editCardButton" type="button" title="Save Changes">
-                                  <img class="editCardIcon" src="{% static 'flashdeck/images/edit-card-icon.png' %}" alt="edit">
-                              </button>
-                              <button class="deleteCardButton" type="button" title="Delete Card">
-                                  <img class="deleteCardIcon" src="{% static 'flashdeck/images/trash-card-icon.png' %}" alt="delete">
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              `;
-              modalBody.innerHTML += cardHTML;
-          });
-          modalBody.innerHTML += `
-                <div class="row mt-4 pt-4">
-                  <div class="col d-flex justify-content-end">
-                    <button type="button" class="btn closeModalButton" data-bs-dismiss="modal">Cancel</button>
-                  </div>
-                  <div class="col d-flex justify-content-center">
-                    <button class="btn addCardsButton" data-bs-toggle="modal" data-bs-target="#addCardsModal">Add
-                      Cards</button>
-                  </div>
-                </div>
-                  `;
+document.querySelector('#editCardsModal .modal-body').addEventListener('click', async (event) => {
+  const button = event.target.closest('.editCardButton, .deleteCardButton');
+  if (!button) return;
+
+  const cardId = button.closest('.cardPreviewContainer')?.dataset.cardId;
+  if (!cardId) {
+    console.error('Card ID not found.');
+    return;
+  }
+
+  if (button.classList.contains('editCardButton')) {
+    const question = document.querySelector(`textarea[name="question_${cardId}"]`)?.value;
+    const answer = document.querySelector(`textarea[name="answer_${cardId}"]`)?.value;
+
+    try {
+      const response = await fetch(`/card/${cardId}/edit/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrfToken(),
+        },
+        body: JSON.stringify({ question, answer }),
+      });
+
+      const result = await response.json();
+      alert(result.status === 'success' ? 'Card updated successfully!' : 'Failed to update the card.');
+    } catch (error) {
+      console.error('Error updating card:', error);
+    }
+  }
+
+  if (button.classList.contains('deleteCardButton')) {
+    if (!confirm('Are you sure you want to delete this card?')) return;
+
+    try {
+      const response = await fetch(`/card/${cardId}/delete/`, {
+          method: 'DELETE',
+          headers: {
+              'X-CSRFToken': getCsrfToken(),
+          },
+      })
+
+      if (response.ok) {
+        button.closest('.cardPreviewContainer').remove();
+        alert('Card deleted successfully!');
+      } else {
+        alert('Failed to delete the card.');
       }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    }
+  }
+});
 
-        document.querySelectorAll('.editDeckButton').forEach((button) => {
+async function fetchEditCards(deckId) {
+  try {
+    const response = await fetch(`my-decks/api/flashcards/${deckId}/`);
+    if (!response.ok) throw new Error(`Failed to fetch cards: ${response.statusText}`);
+
+    const { cards } = await response.json();
+    const modalBody = document.querySelector('#editCardsModal .modal-body');
+    modalBody.innerHTML = ''; // Clear the modal body before adding new content
+
+if (cards.length > 0) {
+  modalBody.innerHTML = cards.map(card => `
+    <div class="cardPreviewContainer border p-3 mb-3" data-card-id="${card.card_setNumber}">
+      <div class="row my-3">
+        <div class="col mx-4">
+          <div class="row text-white text-start">
+            <h5>Term</h5>
+          </div>
+          <div class="row">
+            <textarea class="previewTextInput form-control" name="question-${card.card_setNumber}">${card.question}</textarea>
+          </div>
+        </div>
+        <div class="col mx-4">
+          <div class="row text-white text-start">
+            <h5>Definition</h5>
+          </div>
+          <div class="row">
+            <textarea class="previewTextInput form-control" name="answer-${card.card_setNumber}">${card.answer}</textarea>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-end align-items-center">
+          <button class="editCardButton" type="button" title="Save Changes">
+            <img class="editCardIcon" src="{% static 'flashdeck/images/edit-card-icon.png' %}" alt="edit">
+            Save
+          </button>
+          <button class="deleteCardButton" type="button" title="Delete Card">
+            <img class="deleteCardIcon" src="{% static 'flashdeck/images/trash-card-icon.png' %}" alt="delete">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+} else {
+  modalBody.innerHTML = '<p class="text-center text-muted">No cards available for this deck.</p>';
+}
+
+// Add buttons at the bottom of the modal body
+modalBody.innerHTML += `
+  <div class="row mt-4 pt-4">
+    <div class="col d-flex justify-content-end">
+      <button type="button" class="btn closeModalButton" data-bs-dismiss="modal">Cancel</button>
+    </div>
+    <div class="col d-flex justify-content-center">
+      <button class="btn addCardsButton" data-bs-toggle="modal" data-bs-target="#addCardsModal">Add Cards</button>
+    </div>
+  </div>
+`;
+
+  } catch (error) {
+    console.error('Error fetching cards:', error);
+  }
+}
+
+function getCsrfToken() {
+    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (!tokenElement) {
+        console.error('CSRF token not found in the document.');
+        return null;
+    }
+    return tokenElement.value;
+}
+
+
+          document.querySelectorAll('.editDeckButton').forEach((button) => {
           button.addEventListener('click', () => {
             const deckId = button.getAttribute('data-deck-id');
             console.log(`Editing Deck ID: ${deckId}`);
@@ -753,7 +725,6 @@
             deleteModal.show();
           });
         });
-
 
         // Ensure the cancel button dismisses the modal
         document.querySelectorAll('[data-bs-dismiss="modal"]').forEach((button) => {

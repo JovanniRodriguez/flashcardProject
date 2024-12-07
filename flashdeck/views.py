@@ -90,21 +90,26 @@ def edit_card(request, card_id):
 @login_required
 def fetch_edit_cards(request, deck_id):
     flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
-    cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values('card_setNumber', 'question', 'answer')
     return JsonResponse({'cards': list(cards)})
 
 @login_required
-def fetch_study_cards(request, deck_id):
+def get_study_cards(request, deck_id):
     flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
     cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
     return JsonResponse({'cards': list(cards)})
 
-@login_required
-@require_http_methods(['DELETE'])
 def delete_card(request, card_id):
-    card = get_object_or_404(Card, id=card_id, cardset__user=request.user)
-    card.delete()
-    return JsonResponse({'status': 'success'})
+    if request.method == 'DELETE':
+        try:
+            card = Card.objects.get(id=card_id)
+            card.delete()
+            return JsonResponse({'status': 'success', 'message': 'Card deleted successfully.'})
+        except Card.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Card not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
 
 @require_POST
 def update_card_order(request):
