@@ -135,7 +135,7 @@
               <button class="btn editDeckButton" data-bs-toggle="modal">Edit Deck</button>
             </div>
             <div class="col-6 d-flex justify-content-center">
-              <button class="btn cardsModalButton" data-bs-toggle="modal"
+              <button class="btn addEditCardsButton" data-bs-toggle="modal"
                 data-bs-target="#addEditCardsModal">Cards</button>
             </div>
           </div>
@@ -247,37 +247,18 @@
                 <textarea class="cardInput" name="answer" required></textarea>
               </div>
             </div>
-
-            <!--media buttons-->
-            <!--<div class="row d-flex justify-content-center my-2">
-                <div class="col d-flex justify-content-center">
-                  <input type="file" id="imageUploadInput" name="img" accept="image/*" style="display: none;">
-                  <label for="imageUploadInput">
-                    <img src="{% static 'flashdeck/images/upload-image-icon.png' %}" alt="Image" id="uploadImage"
-                      style="cursor: pointer;">
-                  </label>
-
-                  <input type="file" id="audioUploadInput" name="audio" accept="audio/*" style="display: none;">
-                  <label for="audioUploadInput">
-                    <img src="{% static 'flashdeck/images/upload-audio-icon.png' %}" alt="Audio" id="uploadAudio"
-                      style="cursor: pointer;">
-                  </label>
-
-                </div>
-              </div>-->
-
             <div class="container mt-5 mb-5 pb-5 d-flex justify-content-center">
               <button type="submit" class="addCardButton">Add / Save Card</button>
             </div>
           </form>
-
-
+          <div id="feedbackMessages"></div>
           <div class="row mt-4 pt-4">
             <div class="col d-flex justify-content-end">
               <button type="button" class="btn closeModalButton" data-bs-dismiss="modal">Cancel</button>
             </div>
             <div class="col d-flex justify-content-start">
-              <button class="btn saveModalButton">Save Changes</button>
+              <button type="button" class="btn closeModalButton" data-bs-toggle="modal"
+              data-bs-target="#editCardsModal">Edit Cards</button>
             </div>
           </div>
         </div>
@@ -299,10 +280,6 @@
           {% for card in flashcards %}
           <div class="container my-2 cardPreviewContainer">
             <div class="row my-3">
-              <!--<div class="col ms-2">
-                        <img class="imagePreview" src="{{ card.img.url }}" alt="Image Preview">
-                        <img class="playAudioIcon" src="{% static 'flashdeck/images/play-audio-icon.png' %}" alt="Play Audio" data-audio-url="{{ card.audio.url }}">
-                      </div>-->
               <div class="col mx-4">
                 <div class="row text-white text-start">
                   <h5>Term</h5>
@@ -453,11 +430,33 @@
             const quizButton = document.querySelector('#cardOptionsModal .quizButton');
             quizButton.href = `/quiz/${deckId}`;
 
-            const addCardsButton = document.querySelector('#cardOptionsModal .addCardsButton');
-            if (addCardsButton) {
+            const addEditCardsButton = document.querySelector('#cardOptionsModal .addEditCardsButton');
+            if (addEditCardsButton) {
+              addEditCardsButton.setAttribute('data-deck-id', deckId);
+            }
+
+          });
+        });
+
+        document.querySelectorAll('.addEditCardsButton').forEach((button) => {
+          button.addEventListener('click', () => {
+            const deckId = button.getAttribute('data-deck-id');
+            console.log(`Flashcard Options Deck ID: ${deckId}`);
+
+            const addEditCardsModalElement = document.getElementById('addEditCardsModal');
+
+            const addEditModal = new bootstrap.Modal(addEditCardsModalElement);
+            addEditModal.show();
+
+            const addCardsButton = document.querySelector('#addEditCardsModal .addCardsButton');
+            if(addCardsButton){
               addCardsButton.setAttribute('data-deck-id', deckId);
             }
 
+            const editCardsButton = document.querySelector('#addEditCardsModal .editCardsButton');
+            if(editCardsButton){
+              editCardsButton.setAttribute('data-deck-id', deckId);
+            }
           });
         });
 
@@ -471,8 +470,87 @@
             const addModal = new bootstrap.Modal(addModalElement);
             addModal.show();
 
+            const editCardsButton = document.querySelector('#addEditCardsModal .editCardsButton');
+            if(editCardsButton){
+              editCardsButton.setAttribute('data-deck-id', deckId);
+            }
+
             const form = addModalElement.querySelector('form');
             form.setAttribute('action', `/set/${deckId}/add/`);
+          });
+        });
+
+        const addCardsModalForm = document.getElementById('addCardsModal');
+        const feedbackMessages = document.getElementById('feedbackMessages');
+
+        addCardsModalForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent full page reload
+            const form = e.target;
+            const actionUrl = form.getAttribute('action');
+            const formData = new FormData(form);
+
+            fetch(actionUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                },
+                body: formData,
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json(); // Parse JSON response
+            })
+            .then((data) => {
+                if (data.message) {
+                    // Show success message to the user
+                    feedbackMessages.innerHTML = `
+                        <div class="alert-success text-center text-white">
+                            ${data.message}
+                        </div>
+                    `;
+
+                    // Automatically remove the message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 3000);
+
+                    // Clear the input fields
+                    form.querySelector('textarea[name="question"]').value = '';
+                    form.querySelector('textarea[name="answer"]').value = '';
+                } else {
+                    console.error('Unexpected response:', data);
+                }
+            })
+            .catch((error) => {
+                console.error('Fetch error:', error);
+
+                feedbackMessages.innerHTML = `
+                    <div class="alert-danger text-center text-white">
+                        Failed to add the card. Please try again.
+                    </div>
+                `;
+
+                // Automatically remove the error message after 3 seconds
+                setTimeout(() => {
+                    errorMessage.remove();
+                }, 3000);
+            });
+        });
+
+        document.querySelectorAll('editCardsButton').forEach((button) => {
+          button.addEventListener('click', () => {
+            const deckId = button.getAttribute('data-deck-id');
+            console.log(`Edit Cards Deck ID: ${deckId}`);
+
+            const editCardsModalElement = document.getElementById('editCardsModal');
+            
+            const editCardsModal = new bootstrap.Modal(editCardsModalElement);
+            editCardsModal.show();
+
+            const form = editCardsModalElement.querySelector('form');
+            form.setAttribute('action', `cardset/${deckId}/edit/cards/`);
           });
         });
 
@@ -550,6 +628,18 @@
             }
           });
         });
+
+        document.querySelectorAll('[data-bs-dismiss="modal"]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addEditCardsModal'));
+            modal.hide(); // Manually hide the modal if needed
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+              backdrop.remove(); // Manually remove the backdrop
+            }
+          });
+        });
+
 
 
       });

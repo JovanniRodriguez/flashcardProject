@@ -152,20 +152,16 @@ def add_flashcard(request, set_id):
     if request.method == "POST":
         question = request.POST.get('question')
         answer = request.POST.get('answer')
-        #image = request.FILES.get('image')
-        #audio = request.FILES.get('audio')
-
-        # Create and save the new Card instance
-        Card.objects.create(
+ 
+         # Create and save the new Card instance
+        card = Card.objects.create(
             card_setNumber=flashcard_set,
             question=question,
             answer=answer,
-            #img=image if image else None,
-            #audio=audio if audio else None
         )
-        return redirect('edit_flashcards', set_id=set_id)
-
-    return render(request, 'flashdeck/myDecks.html', {'flashcard_set': flashcard_set})
+        return JsonResponse({'message': 'Card added successfully!', 'card_id': card.id})
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @login_required
 def delete_account(request):
