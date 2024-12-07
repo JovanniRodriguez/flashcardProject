@@ -147,7 +147,7 @@ form a:hover{
   background-color: #A4E3FF !important;
 }
 
-.studyButton, .editDeckButton, .deleteDeckButton, .quizButton, .addCardsButton{
+.studyButton, .editDeckButton, .deleteDeckButton, .quizButton, .addCardsButton, .editCardsButton{
   width: 200px !important;
 }
 .deleteDeckButton:hover{

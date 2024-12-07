@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CardSet, Card
 from .forms import FlashcardForm, CardsetForm, CustomUserCreationForm, ChangePasswordForm
@@ -7,6 +8,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib import messages
 # Create your views here.
 
@@ -66,6 +68,62 @@ def edit_cardset_details(request, cardset_id):
     }
     return render(request, 'flashdeck/myDecks.html', context)
 
+@login_required
+@require_POST
+def edit_card(request, card_id):
+    # Retrieve the card, ensuring it's owned by the user
+    card = get_object_or_404(Card, id=card_id, user=request.user)
+
+    # Get the data from the request body (assuming JSON format)
+    data = json.loads(request.body)
+
+    # Update the card's question and answer
+    card.question = data.get('question', card.question)
+    card.answer = data.get('answer', card.answer)
+
+    # Save the changes
+    card.save()
+
+    # Return a success response
+    return JsonResponse({'status': 'success'})
+
+@login_required
+def fetch_edit_cards(request, deck_id):
+    flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
+    return JsonResponse({'cards': list(cards)})
+
+@login_required
+def fetch_study_cards(request, deck_id):
+    flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
+    return JsonResponse({'cards': list(cards)})
+
+@login_required
+@require_http_methods(['DELETE'])
+def delete_card(request, card_id):
+    card = get_object_or_404(Card, id=card_id, cardset__user=request.user)
+    card.delete()
+    return JsonResponse({'status': 'success'})
+
+@require_POST
+def update_card_order(request):
+    try:
+        # Parse the incoming JSON data
+        data = json.loads(request.body)
+        card_updates = data.get('card_updates', [])
+        
+        # Process the card order updates (you can update your database here)
+        for update in card_updates:
+            # Assuming you have a Card model and want to update its order
+            card = Card.objects.get(id=update['id'])
+            card.order = update['order']
+            card.save()
+
+        return JsonResponse({'status': 'success', 'message': 'Card order updated successfully'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 @login_required
 def edit_flashcards(request, cardset_id):
@@ -73,19 +131,19 @@ def edit_flashcards(request, cardset_id):
     cards = cardset.cards.all()
 
     if request.method == 'POST':
-        card_forms = [FlashcardForm(request.POST, prefix=str(card.id), instance=card) for card in cards]
-        if all(form.is_valid() for form in card_forms):
-            for form in card_forms:
-                form.save()
-            return redirect('cardset_detail', cardset_id=cardset.id)
-    else:
-        card_forms = [FlashcardForm(prefix=str(card.id), instance=card) for card in cards]
+        for card in cards:
+            question = request.POST.get(f'question_{card.id}')
+            answer = request.POST.get(f'answer_{card.id}')
+            if question is not None and answer is not None:
+                card.question = question
+                card.answer = answer
+                card.save()
+        return redirect('cardset_detail', cardset_id=cardset.id)
 
     context = {
-        'cardset': cardset,
-        'card_forms': card_forms,
+        'flashcards': cards,
     }
-    return render(request, 'flashdeck/edit_flashcards.html', context)
+    return render(request, 'flashdeck/myDecks.html', context)
 
 
 def account(request):
