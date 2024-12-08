@@ -1,3 +1,4 @@
+
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CardSet, Card
@@ -72,7 +73,7 @@ def edit_cardset_details(request, cardset_id):
 @require_POST
 def edit_card(request, card_id):
     # Retrieve the card, ensuring it's owned by the user
-    card = get_object_or_404(Card, id=card_id, user=request.user)
+    card = get_object_or_404(Card, id=card_id)
 
     # Get the data from the request body (assuming JSON format)
     data = json.loads(request.body)
@@ -90,7 +91,7 @@ def edit_card(request, card_id):
 @login_required
 def fetch_edit_cards(request, deck_id):
     flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
-    cards = Card.objects.filter(card_setNumber=flashcard_set).values('card_setNumber', 'question', 'answer')
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values('card_setNumber', 'question', 'answer', 'id')
     return JsonResponse({'cards': list(cards)})
 
 @login_required
@@ -139,6 +140,7 @@ def edit_flashcards(request, cardset_id):
         for card in cards:
             question = request.POST.get(f'question_{card.id}')
             answer = request.POST.get(f'answer_{card.id}')
+            
             if question is not None and answer is not None:
                 card.question = question
                 card.answer = answer

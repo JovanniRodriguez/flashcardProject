@@ -1,3 +1,4 @@
+
 <!-- templates/flashdeck/myDecks.html -->
 {% load static %}
 <html lang="en">
@@ -296,9 +297,10 @@
                       </div>
                     </div>
                     <div class="col d-flex justify-content-end align-items-center">
-                      <button class="btn editCardButton" type="button" title="Save Changes">
-                        <img class="editCardIcon" src="{% static 'flashdeck/images/edit-card-icon.png' %}" alt="edit">
+                      <button class="btn editCardButton" type="button" title="Save Changeseeee">
+                        <img class="editCardIcon" src="{% static 'flashdeck/imagese/edit-card-icon.png' %}" alt="edit">
                       </button>
+                      
                   
                       <!-- Delete Button -->
                       <button class="btn deleteCardButton" type="button" title="Delete Card">
@@ -393,6 +395,16 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
       </script>
     <script>
+
+function getCsrfToken() {
+    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+    console.log('token element: ' + tokenElement.value);
+    if (!tokenElement) {
+        console.error('CSRF token not found in the document.');
+        return null;
+    }
+    return tokenElement.value;
+}
       document.addEventListener('DOMContentLoaded', () => {
         // Attach event listener to deck cards
         document.querySelectorAll('.card[data-bs-toggle="modal"]').forEach((card) => {
@@ -553,26 +565,40 @@ document.querySelector('#editCardsModal .modal-body').addEventListener('click', 
   const button = event.target.closest('.editCardButton, .deleteCardButton');
   if (!button) return;
 
-  const cardId = button.closest('.cardPreviewContainer')?.dataset.cardId;
+  const cardContainer = button.closest('.cardPreviewContainer');
+  
+  // Log the entire card container to inspect its structure
+  console.log('Card Container:', cardContainer);
+  
+  // Ensure cardContainer is not null and has the correct data-card-id attribute
+  const cardId = cardContainer ? cardContainer.dataset.cardId : null;
+  console.log('Card ID:', cardId); // This should now log the correct card ID
+  
   if (!cardId) {
     console.error('Card ID not found.');
     return;
   }
 
   if (button.classList.contains('editCardButton')) {
-    const question = document.querySelector(`textarea[name="question_${cardId}"]`)?.value;
-    const answer = document.querySelector(`textarea[name="answer_${cardId}"]`)?.value;
+    const question = document.querySelector(`textarea[name="question-${cardId}"]`)?.value;
+    const answer = document.querySelector(`textarea[name="answer-${cardId}"]`)?.value;
+    const actualID = parseInt(cardContainer.querySelector('.actualID').innerHTML, 10);
+    
+    console.log('Actual Card ID: ' + actualID);
+    console.log('Term: ' + question);
+    console.log('Answer: ' + answer);
 
     try {
-      const response = await fetch(`/card/${cardId}/edit/`, {
+      const response = await fetch(`/card/${actualID}/edit/`, { // Use the correct cardId here
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': getCsrfToken(),
         },
         body: JSON.stringify({ question, answer }),
+        
       });
-
+      console.log(JSON.stringify({ question, answer, actualID }));
       const result = await response.json();
       alert(result.status === 'success' ? 'Card updated successfully!' : 'Failed to update the card.');
     } catch (error) {
@@ -581,18 +607,19 @@ document.querySelector('#editCardsModal .modal-body').addEventListener('click', 
   }
 
   if (button.classList.contains('deleteCardButton')) {
-    if (!confirm('Are you sure you want to delete this card?')) return;
+    const actualID = parseInt(cardContainer.querySelector('.actualID').innerHTML, 10);
+    if (!confirm('Are you sure you want to delete this card? id=' + cardId)) return;
 
     try {
-      const response = await fetch(`/card/${cardId}/delete/`, {
-          method: 'DELETE',
-          headers: {
-              'X-CSRFToken': getCsrfToken(),
-          },
-      })
+      const response = await fetch(`/card/${actualID}/delete/`, { // Use the correct cardId here
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': getCsrfToken(),
+        },
+      });
 
       if (response.ok) {
-        button.closest('.cardPreviewContainer').remove();
+        cardContainer.remove();
         alert('Card deleted successfully!');
       } else {
         alert('Failed to delete the card.');
@@ -602,6 +629,8 @@ document.querySelector('#editCardsModal .modal-body').addEventListener('click', 
     }
   }
 });
+
+
 
 async function fetchEditCards(deckId) {
   try {
@@ -618,6 +647,7 @@ if (cards.length > 0) {
       <div class="row my-3">
         <div class="col mx-4">
           <div class="row text-white text-start">
+            <h1 class="actualID" data-actual-id="${card.id}">${card.id}</h1>
             <h5>Term</h5>
           </div>
           <div class="row">
@@ -665,14 +695,7 @@ modalBody.innerHTML += `
   }
 }
 
-function getCsrfToken() {
-    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-    if (!tokenElement) {
-        console.error('CSRF token not found in the document.');
-        return null;
-    }
-    return tokenElement.value;
-}
+
 
 
           document.querySelectorAll('.editDeckButton').forEach((button) => {
