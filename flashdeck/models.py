@@ -24,11 +24,11 @@ class CardSet(models.Model):
         return self.name
     
 class Card(models.Model):
-    card_setNumber = models.ForeignKey(CardSet, on_delete=models.CASCADE, default=None)
+    card_setNumber = models.ForeignKey(CardSet, related_name='cards',on_delete=models.CASCADE, default=None)
     question = models.CharField(max_length=100, default=None)
     answer = models.CharField(max_length=200, default=None)
-    img = models.ImageField(upload_to="images/", default=None) # new
-    audio = models.FileField(upload_to="audio/", default=None) # new
+    img = models.ImageField(upload_to="images/", default=None, blank=True) # new
+    audio = models.FileField(upload_to="audio/", default=None, blank=True) # new
     box = models.IntegerField(
         choices=zip(BOXES, BOXES),
         default=BOXES[0],

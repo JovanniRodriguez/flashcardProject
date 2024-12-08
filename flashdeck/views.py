@@ -73,8 +73,20 @@ def edit_cardset(request, cardset_id):
 def account(request):
     return render(request, "flashdeck/account.html")
 
-def study(request):
-    return render(request, 'flashdeck/study.html')
+@login_required
+def study(request, deck_id):
+    card_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
+    cards = card_set.cards.all()
+    
+    # Add this for debugging
+    print(f"Number of cards found: {cards.count()}")
+    for card in cards:
+        print(f"Card {card.id}: Question: {card.question}, Answer: {card.answer}")
+    
+    return render(request, 'flashdeck/study.html', {
+        'cards': cards,
+        'deck': card_set
+    })
 
 def quiz(request):
     return render(request, 'flashdeck/quiz.html')

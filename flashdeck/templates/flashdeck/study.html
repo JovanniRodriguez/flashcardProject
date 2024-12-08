@@ -44,6 +44,51 @@
       padding: 0px;
       text-align: center;
     }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    #footer {
+      margin-top: auto;
+      width: 100%;
+      background-color: black; 
+      padding: 20px 0;
+      position: relative;
+      bottom: 0;
+    }
+
+    .card-image-container {
+      width: 80%;
+      max-height: 150px;
+      margin-top: auto;
+      margin-bottom: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 4px;  /* Optional: rounds the image corners */
+    }
+
+    .answer-text {
+      width: 100%;
+      text-align: center;
+      margin: 0;
+    }
+
+    .main-content {
+      flex: 1;
+      padding-bottom: 20px; /* Add some space above the footer */
+    }
   
     /* Confidence container border colors */
     .confidence-level:nth-child(1) .confidence-container {
@@ -81,6 +126,22 @@
     .confidence-level:nth-child(4) .confidence-button,
     .confidence-level:nth-child(4) .confidence-container div {
       color: #FF6347 !important;
+    }
+
+    .card-audio {
+      position: absolute;
+      bottom: 15px;
+      width: 80%;
+    }
+
+    .prototype-box.back {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      gap: 15px;
+      position: relative;
     }
   </style>
 </head>
@@ -144,82 +205,29 @@
   <p class="mt-3" style="color: #ffffff">Number of reviews this session: <span id="flipCounter">0</span></p>
 
 
-
-    <!-- Card 1 -->
-    <div class="card" id="card-1">
+    {% for card in cards %}
+      <div class="card" id="card-{{ card.id }}">
         <!-- Front of the card -->
         <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-          <p class="card-text">Card 1</p> 
+          <p class="card-text">{{ card.question }}</p> 
         </div>
-  
+
         <!-- Back of the card -->
         <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-          <p> back of card 1</p>
+          <p>{{ card.answer }}</p>
+          {% if card.img %}
+            <div class="card-image-container">
+              <img src="{{ card.img.url }}" alt="Card image" class="card-image">
+            </div>          {% endif %}
+          {% if card.audio %}
+            <audio controls src="{{ card.audio.url }}" class="card-audio"></audio>
+          {% endif %}
         </div>
-      </div> 
-
-    <!-- Card 2 -->
-    <div class="card" id="card-2">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 2</p>
       </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 2</p>
-      </div>
-    </div>
-
-
-    <!-- Card 3 -->
-    <div class="card" id="card-3">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 3</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 3</p>
-      </div>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="card" id="card-4">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 4</p>
-      </div>
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 4</p>
-      </div>
-    </div>
-    
-
-    <!-- Card 5 -->
-    <div class="card" id="card-5">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 5</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 5</p>
-      </div>
-    </div>
-    
-
-    <!-- Card 6 -->
-    <div class="card" id="card-6">
-      <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-        <p class="card-text">card 6</p>
-      </div>
-
-      <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-        <p> back of card 6</p>
-      </div>
-    </div>
-    
-
-  </div>
+    {% endfor %}
 
   <!-- Footer -->
-  <div class="container-fluid" id="footer">
+  <div class="container-fluid rounded-top" id="footer">
     <div class="row"> <!--flashdeck-->
       <div class="col text-center text-white">
         <p id="footerHeader">FLASHDECK</p>
@@ -266,6 +274,11 @@
       card.classList.add('hidden');
     }
   });
+
+  // If there are no cards, you might want to show a message
+  if (cards.length === 0) {
+    document.querySelector('.main-content').innerHTML += '<p class="text-white">No cards left in this deck.</p>';
+  }
 
   document.addEventListener("keydown", function (event) {
     if (event.code === "Enter") {

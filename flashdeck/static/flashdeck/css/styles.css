@@ -172,8 +172,8 @@ form a:hover{
   border: 6px solid black !important;
   border-radius: 12px !important;
   width: 325px;
-  height: 200px;
-  max-height: 200px;
+  height: 800px;
+  max-height: 800px;
   max-width: 325px;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
