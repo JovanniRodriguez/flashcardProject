@@ -28,7 +28,7 @@ def signIn(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('cardset_list')  # Replace 'home' with the URL name for your dashboard or homepage
+            return redirect('cardset_list') 
         else:
             return render(request, 'flashdeck/signIn.html', {'error': 'Invalid username or password'})
     return render(request, 'flashdeck/signIn.html')
@@ -37,9 +37,9 @@ def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
-            user = form.save()  # Save the user
-            login(request, user)  # Log the user in after registration
-            return redirect('signIn')  # Redirect to sign-in page or another view
+            user = form.save()  
+            login(request, user) 
+            return redirect('signIn') 
     else:
         form = CustomUserCreationForm()
     return render(request, "flashdeck/register.html", {"form": form})
@@ -58,8 +58,7 @@ def edit_cardset_details(request, cardset_id):
             cardset_form.save()
             return redirect('cardset_list')  
         else:
-            # If form isn't valid, log or print to see the errors
-            print(cardset_form.errors)  # Check for validation errors
+            print(cardset_form.errors)  
     else:
         cardset_form = CardsetForm(instance=cardset)
 
@@ -72,20 +71,15 @@ def edit_cardset_details(request, cardset_id):
 @login_required
 @require_POST
 def edit_card(request, card_id):
-    # Retrieve the card, ensuring it's owned by the user
     card = get_object_or_404(Card, id=card_id)
 
-    # Get the data from the request body (assuming JSON format)
     data = json.loads(request.body)
 
-    # Update the card's question and answer
     card.question = data.get('question', card.question)
     card.answer = data.get('answer', card.answer)
 
-    # Save the changes
     card.save()
 
-    # Return a success response
     return JsonResponse({'status': 'success'})
 
 @login_required
@@ -115,13 +109,10 @@ def delete_card(request, card_id):
 @require_POST
 def update_card_order(request):
     try:
-        # Parse the incoming JSON data
         data = json.loads(request.body)
         card_updates = data.get('card_updates', [])
         
-        # Process the card order updates (you can update your database here)
         for update in card_updates:
-            # Assuming you have a Card model and want to update its order
             card = Card.objects.get(id=update['id'])
             card.order = update['order']
             card.save()
@@ -155,10 +146,9 @@ def edit_flashcards(request, cardset_id):
 
 def account(request):
     if request.method == "POST" and "confirm_delete" in request.POST:
-        # Delete the user if the confirmation flag is present
         request.user.delete()
         messages.success(request, "Your account has been deleted.")
-        return redirect('index')  # Redirect to a safe page
+        return redirect('index') 
     else:
         return render(request, "flashdeck/account.html")
 
@@ -179,14 +169,14 @@ def get_quiz_cards(request, deck):
 
 @login_required
 def my_decks(request):
-    decks = CardSet.objects.filter(user=request.user)  # Or filter for specific decks
+    decks = CardSet.objects.filter(user=request.user)  
     return render(request, 'flashdeck/myDecks.html', {'sets': decks})
 
 def delete_deck(request, deck_id):
     deck = get_object_or_404(CardSet, id=deck_id)
     if request.method == 'POST':
         deck.delete()
-        return redirect('cardset_list')  # Redirect to the list of decks after deletion
+        return redirect('cardset_list')
     return render(request, 'confirm_delete.html', {'deck': deck})
 
 @login_required
@@ -200,7 +190,7 @@ def createDeck(request):
             return redirect('cardset_list')
     else:
         form = CardsetForm()
-    return render(request, 'flashdeck/create-deck.html', {'form' : form}) # replace ... with html page that has form to creat cardsets
+    return render(request, 'flashdeck/create-deck.html', {'form' : form}) 
 
 @login_required
 def flashcard_list(request, set_id):
@@ -209,7 +199,7 @@ def flashcard_list(request, set_id):
     return render(request, 'flashdeck/myDecks.html', { 
         'flashcard_set': flashcard_set,
         'flashcards': flashcards
-    }) # replace ... with html page that lists the cards out
+    })
 
 @login_required
 def add_flashcard(request, set_id):
@@ -217,8 +207,7 @@ def add_flashcard(request, set_id):
     if request.method == "POST":
         question = request.POST.get('question')
         answer = request.POST.get('answer')
- 
-         # Create and save the new Card instance
+
         card = Card.objects.create(
             card_setNumber=flashcard_set,
             question=question,
@@ -231,12 +220,11 @@ def add_flashcard(request, set_id):
 @login_required
 def delete_account(request):
     if request.method == "POST" and "confirm_delete" in request.POST:
-        # Delete the user if the confirmation flag is present
+
         request.user.delete()
         messages.success(request, "Your account has been deleted.")
-        return redirect('sign-in')  # Redirect to a safe page
+        return redirect('sign-in')  
 
-    # If the request is GET or no confirmation flag, show the confirmation page
     return render(request, 'flashdeck/delete_account.html')
 
 class ChangePasswordView(PasswordChangeView):
