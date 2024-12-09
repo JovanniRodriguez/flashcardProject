@@ -131,19 +131,19 @@
     document.addEventListener('DOMContentLoaded', () => {
       async function fetchStudyCards() {
         const deckId = getDeckIdFromURL();
-        console.log(`Study ID: ${deckId}`);
+        console.log(`Deck ID: ${deckId}`);
         try{
           const response = await fetch(`api/study-cards/${deckId}/`);
           const data = await response.json();
           console.log('API Response:', data);
-          cards = data.cards; 
+          cardsData = data.cards; 
           if (cardsData.length === 0) {
             console.error('No cards found for this quiz.');
             alert('No cards available for this deck.');
             return;
           } 
         } catch (error) {
-          console.error(`Failed to fetch quiz cards: `, error )
+          console.error(`Failed to fetch study cards: `, error )
         }
         
       }
@@ -157,6 +157,7 @@
       let flipCount = 0;
       let currentIndex = 0;
       let cards = fetchStudyCards();
+      console.log(cards);  //is a promise right now, needs to be an object
       let confidenceCounts = {};
       let deckCycle = 1;
 

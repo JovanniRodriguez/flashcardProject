@@ -95,10 +95,12 @@ def fetch_edit_cards(request, deck_id):
     return JsonResponse({'cards': list(cards)})
 
 @login_required
-def get_study_cards(request, deck_id):
-    flashcard_set = get_object_or_404(CardSet, id=deck_id, user=request.user)
+def get_study_cards(request, deck):
+    flashcard_set = get_object_or_404(CardSet, id=deck, user=request.user)
     cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
     return JsonResponse({'cards': list(cards)})
+
+
 
 def delete_card(request, card_id):
     if request.method == 'DELETE':

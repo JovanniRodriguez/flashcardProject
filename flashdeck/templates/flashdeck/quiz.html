@@ -121,7 +121,7 @@
       fetchQuizCards();
 
       let cardsData = [];
-      console.log(cardsData); 
+      console.log('cards data 1: ' + cardsData); 
     
       let correctAnswers = 0;
       const quizCardsContainer = document.getElementById('quiz-cards-container');
@@ -160,6 +160,7 @@
     
         for (let i = 0; i < cardsData.length; i++) {
           const cardData = cardsData[i];
+          console.log(cardsData[i]);
     
           const quizCard = document.createElement('div');
           quizCard.classList.add('quiz-card');
