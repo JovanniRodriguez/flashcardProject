@@ -1,4 +1,3 @@
-
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CardSet, Card
@@ -97,7 +96,14 @@ def fetch_edit_cards(request, deck_id):
 @login_required
 def get_study_cards(request, deck):
     flashcard_set = get_object_or_404(CardSet, id=deck, user=request.user)
-    cards = Card.objects.filter(card_setNumber=flashcard_set).values('question', 'answer')
+    cards = Card.objects.filter(card_setNumber=flashcard_set).values(
+        'id',
+        'question',
+        'answer',
+        'card_setNumber'
+    )
+    # Add print statement for debugging
+    print(f"API returning {len(cards)} cards")
     return JsonResponse({'cards': list(cards)})
 
 
@@ -164,10 +170,19 @@ def account(request):
     else:
         return render(request, "flashdeck/account.html")
 
+@login_required
 def study(request, deck):
     deck_instance = get_object_or_404(CardSet, id=deck)
-
-    return render(request, 'flashdeck/study.html', {'deck': deck_instance})
+    cards = Card.objects.filter(card_setNumber=deck_instance)
+    
+    # Add print statement for debugging
+    print(f"Number of cards found: {cards.count()}")
+    
+    context = {
+        'deck': deck_instance,
+        'cards': cards,
+    }
+    return render(request, 'flashdeck/study.html', context)
 
 def quiz(request, deck):
     deck_instance = get_object_or_404(CardSet, id=deck)

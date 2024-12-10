@@ -13,6 +13,150 @@
         rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Decks | FlashDeck</title>
+    <style>
+      .card{
+        background-color: #A4E3FF !important;
+        border: 6px solid black !important;
+        border-radius: 12px !important;
+        width: 325px !important;
+        height: 400px !important;
+        max-height: 400px !important;
+        max-width: 325px !important;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+  
+      .card.active {
+          display: block;
+      }
+  
+      .prototype-box {
+          position: absolute;
+          width: 300px;
+          height: 500px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          background: #303030 !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease-in-out;
+          opacity: 1;
+          border: 2px solid #A4E3FF;
+      }
+
+  
+      .prototype-box.front {
+          transform: scale(1);
+      }
+  
+      .prototype-box.back {
+          opacity: 0;
+          transform: scale(0.95);
+      }
+  
+      .card.flipped .front {
+          opacity: 0;
+          transform: scale(0.95);
+      }
+  
+      .card.flipped .back {
+          opacity: 1;
+          transform: scale(1);
+      }
+  
+      .card-text {
+          padding: 20px;
+          position: relative;
+          max-height: 100%;
+          margin: 0;
+          word-wrap: break-word;
+          color: white;
+      }
+  
+      .text-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          overflow-y: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+      }
+
+      #footer {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background-color: black;
+          padding-top: 20px;
+          z-index: 1000;
+      }
+
+      .main-content {
+          margin-bottom: 50px; /* Adjust this value based on your footer height */
+          min-height: calc(100vh - 250px); /* This ensures minimum height of content area */
+          padding-top: 10px;
+      }
+
+      /* Different text sizes for question and answer */
+      .front .card-text {
+          font-size: 24px;  /* Larger text for questions */
+      }
+
+      .back .card-text {
+          font-size: 18px;  /* Smaller text for answers */
+      }
+
+      body {
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+      }
+
+      .main-content {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          flex-direction: column;
+          padding-top: 10px; /* Significantly reduced from 60px */
+      }
+
+      .confidence-buttons {
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          padding: 0; /* Removed padding completely */
+          margin-top: 5px; /* Add margin to position below navbar */
+          z-index: 10;
+      }
+
+      .card-container {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 300px; /* Adjusted to center the taller card */
+      }
+
+      #footer {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;
+      }
+  </style>
 </head>
 
 <body>
@@ -44,47 +188,59 @@
 
   <!-- Main Content -->
   <div class="container d-flex flex-column align-items-center main-content">
-    <!-- Confidence Buttons -->
-    <div class="confidence-buttons d-flex justify-content-center">
-      <div class="confidence-level text-center mx-2">
-        <div class="confidence-container">
-          <button class="confidence-button" onclick="incrementCount(this, 'Confident')">0</button>
-          <div onclick="incrementCount(this.previousElementSibling, 'Confident')">Confident</div>
+    <!-- Confidence Buttons at top -->
+    <div class="confidence-buttons">
+        <div class="confidence-level text-center mx-2">
+            <div class="confidence-container">
+                <button class="confidence-button" onclick="incrementCount(this, 'Confident')">0</button>
+                <div onclick="incrementCount(this.previousElementSibling, 'Confident')">Confident</div>
+            </div>
         </div>
-      </div>
-      <div class="confidence-level text-center mx-2">
-        <div class="confidence-container">
-          <button class="confidence-button" onclick="incrementCount(this, 'Good')">0</button>
-          <div onclick="incrementCount(this.previousElementSibling, 'Good')">Good</div>
+        <div class="confidence-level text-center mx-2">
+            <div class="confidence-container">
+                <button class="confidence-button" onclick="incrementCount(this, 'Good')">0</button>
+                <div onclick="incrementCount(this.previousElementSibling, 'Good')">Good</div>
+            </div>
         </div>
-      </div>
-      <div class="confidence-level text-center mx-2">
-        <div class="confidence-container">
-          <button class="confidence-button" onclick="incrementCount(this, 'Needs Work')">0</button>
-          <div onclick="incrementCount(this.previousElementSibling, 'Needs Work')">Needs Work</div>
+        <div class="confidence-level text-center mx-2">
+            <div class="confidence-container">
+                <button class="confidence-button" onclick="incrementCount(this, 'Needs Work')">0</button>
+                <div onclick="incrementCount(this.previousElementSibling, 'Needs Work')">Needs Work</div>
+            </div>
         </div>
-      </div>
-      <div class="confidence-level text-center mx-2">
-        <div class="confidence-container">
-          <button class="confidence-button" onclick="incrementCount(this, 'Again')">0</button>
-          <div onclick="incrementCount(this.previousElementSibling, 'Again')">Again</div>
+        <div class="confidence-level text-center mx-2">
+            <div class="confidence-container">
+                <button class="confidence-button" onclick="incrementCount(this, 'Again')">0</button>
+                <div onclick="incrementCount(this.previousElementSibling, 'Again')">Again</div>
+            </div>
         </div>
-      </div>
     </div>
+    
     <p class="mt-3" style="color: #ffffff">Number of reviews this session: <span id="flipCounter">0</span></p>
 
-    <!-- Dynamically generate cards from the database -->
-      <div class="card" id="card-{{ forloop.counter }}" data-card-id="{{ card.card_setNumber }}">
-        <!-- Front of the card -->
-        <div class="prototype-box front d-flex align-items-center justify-content-center text-center">
-          <p class="card-text">{{ card.question }}</p>
-        </div>
-
-        <!-- Back of the card -->
-        <div class="prototype-box back d-flex flex-column align-items-center justify-content-center text-center">
-          <p>{{ card.answer }}</p>
-        </div>
-      </div>
+    <!-- Card Container -->
+    <div class="card-container">
+        {% if cards %}
+            {% for card in cards %}
+                <div class="card" id="card-{{ forloop.counter }}" data-card-id="{{ card.id }}">
+                    <!-- Front of the card -->
+                    <div class="prototype-box front">
+                        <div class="text-container">
+                            <p class="card-text">{{ card.question }}</p>
+                        </div>
+                    </div>
+                    <!-- Back of the card -->
+                    <div class="prototype-box back">
+                        <div class="text-container">
+                            <p class="card-text">{{ card.answer }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-white">No cards found in this deck.</p>
+        {% endif %}
+    </div>
   </div>
   <!-- End Main Content -->
 
@@ -128,300 +284,98 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      async function fetchStudyCards() {
-        const deckId = getDeckIdFromURL();
-        console.log(`Deck ID: ${deckId}`);
-        try{
-          const response = await fetch(`api/study-cards/${deckId}/`);
-          const data = await response.json();
-          console.log('API Response:', data);
-          cardsData = data.cards; 
-          if (cardsData.length === 0) {
-            console.error('No cards found for this quiz.');
-            alert('No cards available for this deck.');
-            return;
-          } 
-        } catch (error) {
-          console.error(`Failed to fetch study cards: `, error )
-        }
-        
-      }
-
-      function getDeckIdFromURL() {
-        const path = window.location.pathname;
-        const parts = path.split('/'); 
-        return parts[2];
-      }
-
-      let flipCount = 0;
+    document.addEventListener('DOMContentLoaded', async () => {
+      let cardsData = [];
       let currentIndex = 0;
-      let cards = fetchStudyCards();
-      console.log(cards);  //is a promise right now, needs to be an object
-      let confidenceCounts = {};
-      let deckCycle = 1;
-
-      // Confidence level mapping
-      const confidenceLevels = {
-        'Confident': 1,
-        'Good': 2,
-        'Needs Work': 3,
-        'Again': 4,
-        'Unrated': 3  // Default value
-      };
-
-      // Function to get CSRF token from cookies
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-            }
-          }
-        }
-        return cookieValue;
+      let flipCount = 0;
+      let cards = Array.from(document.querySelectorAll('.card'));
+      
+      // Show first card
+      if (cards.length > 0) {
+          cards[0].classList.add('active');
       }
-      const csrfToken = getCookie('csrftoken');
 
-      // Initialize cards
-      cards.forEach((card, index) => {
-        card.style.zIndex = cards.length - index;
-        if (index !== 0) {
-          card.classList.add('hidden');
-        }
+      function spacebarHandler(event) {
+          if (event.code === 'Space') {
+              event.preventDefault();
+              const currentCard = cards[currentIndex];
+              if (currentCard) {
+                  currentCard.classList.toggle('flipped');
+              }
+          }
+      }
+
+      // Prevent scrolling
+      window.addEventListener('keydown', function(e) {
+          if(['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
+              e.preventDefault();
+          }
       });
 
-      // Event listener for keydown (flip card with spacebar)
-      document.addEventListener("keydown", function (event) {
-        if (event.code === "Space") {
-          event.preventDefault();
-          const card = cards[currentIndex];
-          card.classList.toggle("flip");
-          flipCount++;
-          document.getElementById("flipCounter").textContent = flipCount;
-        }
-        if (event.code === "Enter") {
-          event.preventDefault();
-          alert('Please select a confidence level before proceeding.');
-        }
-      });
+      document.addEventListener('keydown', spacebarHandler);
 
-      function incrementCount(button, confidenceLevel) {
-        const currentValue = parseInt(button.textContent);
-        button.textContent = currentValue + 1;
+      // Make incrementCount available globally
+      window.incrementCount = function(button, confidenceLevel) {
+          console.log('Confidence button clicked:', confidenceLevel);
+          const currentCard = cards[currentIndex];
+          
+          // Verify card is flipped
+          if (!currentCard.classList.contains('flipped')) {
+              alert('Please flip the card before rating your confidence!');
+              return;
+          }
 
-        const currentCard = cards[currentIndex];
-        const cardId = currentCard.id;
+          // Store important elements
+          const cardContainer = document.querySelector('.card-container');
+          const confidenceButtons = document.querySelector('.confidence-buttons');
+          const debugInfo = document.querySelector('.debug-info');
+          const reviewCount = document.querySelector('#flipCounter').parentElement;
+          const flipCounterSpan = document.querySelector('#flipCounter');
+          
+          // Update flip counter first
+          if (flipCounterSpan) {
+              flipCount = parseInt(flipCounterSpan.textContent) + 1;
+              flipCounterSpan.textContent = flipCount;
+          }
 
-        if (!confidenceCounts[cardId]) {
-          confidenceCounts[cardId] = {
-            'Confident': 0,
-            'Good': 0,
-            'Needs Work': 0,
-            'Again': 0
-          };
-        }
-        confidenceCounts[cardId][confidenceLevel] += 1;
-        if (deckCycle === 1) {
-          moveToNextCard();
-        } else {
-          if (confidenceLevel === 'Confident' && confidenceCounts[cardId]['Confident'] >= 3) {
-            displayStars(currentCard);
+          // Update button count
+          button.textContent = parseInt(button.textContent) + 1;
 
-            setTimeout(function () {
-              cards.splice(currentIndex, 1);
+          // Remove current card from array
+          cards.splice(currentIndex, 1);
 
-              currentCard.parentNode.removeChild(currentCard);
+          // Reposition based on confidence
+          switch(confidenceLevel) {
+              case 'Again':
+                  cards.splice(currentIndex + 1, 0, currentCard);
+                  break;
+              case 'Needs Work':
+                  const middlePosition = Math.floor(cards.length / 2);
+                  cards.splice(middlePosition, 0, currentCard);
+                  break;
+              case 'Good':
+              case 'Confident':
+                  cards.push(currentCard);
+                  break;
+          }
 
-              if (currentIndex >= cards.length) {
-                currentIndex = 0;
+          // Only clear the card container instead of the entire main content
+          cardContainer.innerHTML = '';
+          
+          // Re-add cards in new order
+          cards.forEach((card, index) => {
+              const newCard = card.cloneNode(true);
+              newCard.classList.remove('active', 'flipped');
+              if (index === 0) {
+                  newCard.classList.add('active');
               }
-
-              if (cards.length > 0) {
-                cards.forEach((card, index) => {
-                  card.style.zIndex = cards.length - index;
-                  card.classList.toggle('hidden', index !== currentIndex);
-                });
-              } else {
-                alert('Congratulations! You have completed the study session.');
-              }
-            }, 2000);
-          } else {
-
-            cards.splice(currentIndex, 1);
-
-            let newPosition;
-            if (confidenceLevel === 'Again') {
-              newPosition = currentIndex + 1;
-            } else if (confidenceLevel === 'Needs Work') {
-              newPosition = currentIndex + 3;
-            } else if (confidenceLevel === 'Good') {
-              newPosition = currentIndex + 5;
-            } else if (confidenceLevel === 'Confident') {
-              newPosition = cards.length;
-            } else {
-              newPosition = cards.length;
-            }
-
-            if (newPosition > cards.length) {
-              newPosition = cards.length;
-            }
-
-            cards.splice(newPosition, 0, currentCard);
-
-            const cardContainer = document.querySelector('.main-content');
-            cards.forEach(card => {
-              cardContainer.appendChild(card);
-            });
-
-            currentCard.classList.remove('flip');
-
-            if (newPosition <= currentIndex) {
-              currentIndex++;
-            }
-            if (currentIndex >= cards.length) {
-              currentIndex = 0;
-            }
-
-            cards.forEach((card, index) => {
-              card.style.zIndex = cards.length - index;
-              card.classList.toggle('hidden', index !== currentIndex);
-            });
-          }
-        }
-
-        if (currentIndex === 0) {
-          deckCycle++;
-          if (deckCycle === 2) {
-            reshuffleDeck();
-          }
-        }
-      }
-
-      function moveToNextCard() {
-        cards[currentIndex].classList.add('hidden');
-        currentIndex++;
-
-        if (currentIndex >= cards.length) {
-          currentIndex = 0;
-          deckCycle++;
-
-          if (deckCycle === 2) {
-            reshuffleDeck();
-          }
-        }
-
-        cards.forEach((card, index) => {
-          card.classList.toggle('hidden', index !== currentIndex);
-        });
-      }
-
-      function reshuffleDeck() {
-        // Map card indices to confidence levels
-        const cardData = cards.map((card) => {
-          const cardId = card.dataset.cardId;
-          const confidenceData = confidenceCounts[card.id] || {};
-          const confidenceLevelStr = getCardConfidenceLevel(confidenceData);
-          const confidenceValue = confidenceLevels[confidenceLevelStr];
-
-          return {
-            card: card,
-            card_id: cardId,
-            confidenceLevelStr: confidenceLevelStr,
-            confidenceValue: confidenceValue
-          };
-        });
-
-        // Sort the cards based on confidence levels
-        cardData.sort((a, b) => a.confidenceValue - b.confidenceValue);
-
-        // Update the cards array and DOM
-        cards = cardData.map(data => data.card);
-        const cardContainer = document.querySelector('.main-content');
-        cards.forEach(card => cardContainer.appendChild(card));
-
-        // Reset states
-        currentIndex = 0;
-        cards.forEach((card, index) => {
-          card.style.zIndex = cards.length - index;
-          card.classList.remove('flip');
-          card.classList.toggle('hidden', index !== currentIndex);
-        });
-
-        // Prepare data to send to the server
-        const cardUpdates = cardData.map(data => ({
-          card_id: data.card_id,
-          confidence_level: data.confidenceValue
-        }));
-
-        // Send data to the server
-        updateCardOrder(cardUpdates);
-      }
-
-      function getCardConfidenceLevel(confidenceData) {
-        let maxCount = 0;
-        let maxConfidence = 'Unrated';
-
-        for (const level in confidenceData) {
-          if (confidenceData[level] > maxCount) {
-            maxCount = confidenceData[level];
-            maxConfidence = level;
-          }
-        }
-
-        return maxConfidence;
-      }
-
-      function updateCardOrder(cardUpdates) {
-        fetch("{% url 'update_card_order' %}", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
-          },
-          body: JSON.stringify({ card_updates: cardUpdates })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Card order updated:', data);
-          })
-          .catch((error) => {
-            console.error('Error updating card order:', error);
+              cardContainer.appendChild(newCard);
           });
-      }
 
-      function displayStars(card) {
-        const overlay = document.createElement('div');
-        overlay.classList.add('star-overlay');
-
-        const starContent = document.createElement('div');
-        starContent.classList.add('stars');
-        starContent.innerHTML = '⭐️⭐️⭐️';
-
-        overlay.appendChild(starContent);
-
-        card.appendChild(overlay);
-      }
-
-      function adjustFontSize() {
-        const box = document.querySelector(".prototype-box .card-text");
-        if (box) {
-          let fontSize = 24;
-          box.style.fontSize = `${fontSize}px`;
-          while (box.scrollHeight > box.clientHeight && fontSize > 0) {
-            fontSize -= 1;
-            box.style.fontSize = `${fontSize}px`;
-          }
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", adjustFontSize);
-      window.addEventListener("resize", adjustFontSize);
+          // Update cards array with new DOM elements
+          cards = Array.from(document.querySelectorAll('.card'));
+          currentIndex = 0;
+      };
     });
   </script>
 

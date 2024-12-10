@@ -877,3 +877,37 @@ form a:hover{
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+/* Study page card styles */
+.main-content .card {
+    position: relative;
+    width: 400px !important;
+    height: 800px !important;
+    display: none;
+}
+
+.main-content .card.active {
+    display: block;
+}
+
+.main-content .prototype-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    background: #303030 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    border: 2px solid #A4E3FF;
+}
+
+.main-content .card-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -200px;
+}

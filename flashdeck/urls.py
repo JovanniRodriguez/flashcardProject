@@ -21,7 +21,7 @@ urlpatterns = [
     path('create-deck', views.createDeck, name='add_cardset'),
     path('login/', LoginView.as_view(template_name='flashdeck/home.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('study/<int:deck>', views.study, name="study"),
+    path('study/<int:deck>/', views.study, name="study"),
     path('quiz/<int:deck>', views.quiz, name="quiz"),
     path('quiz/api/quiz-cards/<int:deck>/', views.get_quiz_cards, name='get_quiz_cards'),
     path('study/api/study-cards/<int:deck>/', views.get_study_cards, name='get_study_cards'),
