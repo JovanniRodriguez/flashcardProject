@@ -17,7 +17,11 @@
   <!--NAVBAR-->
   <nav class="navbar fixed-top navbar-dark bg-black navbar-expand-lg rounded-bottom-2">
     <div class="container-fluid">
-      <a href="/" class="navbar-brand">
+      <a href="{% if user.is_authenticated %}
+                    {% url 'cardset_list' %}
+                {% else %}
+                    {% url 'index' %}
+                {% endif %}" class="navbar-brand">
         <img src="{% static 'flashdeck/images/Logo.png' %}" class="img-fluid" alt="." width="60" height="60">
         <p class="d-inline" id="flashdeckTitleNav">FLASHDECK</p>
       </a>

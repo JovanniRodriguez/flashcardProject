@@ -85,7 +85,8 @@ body{
 
 /* signIn.html */
 
-/* form labels */
+
+
 .form-group label{
     color: white;
     font-size: 20px;
@@ -94,7 +95,7 @@ body{
 /* form input fields */
 .form-group input{
     border: 3px solid #A4E3FF;
-    background-color: transparent;
+    background: transparent !important;
     width: 350px;
     height: 60px;
     color: white;
