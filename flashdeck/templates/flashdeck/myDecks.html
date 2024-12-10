@@ -154,7 +154,8 @@
           </div>
           <div class="row my-2">
             <div class="col-6 d-flex justify-content-center">
-              <button class="btn deleteDeckButton" data-id="{{ deck.id }}" data-bs-target="#deleteDeckModal">Delete
+              <button class="btn deleteDeckButton" data-id="{{ deck.id }}" data-bs-target="#deleteDeckModal"
+              data-bs-toggle="modal">Delete
                 Deck</button>
             </div>
             <div class="col-6 d-flex justify-content-center">
@@ -651,7 +652,7 @@ if (cards.length > 0) {
       <div class="row my-3">
         <div class="col mx-4">
           <div class="row text-white text-start">
-            <h1 class="actualID" data-actual-id="${card.id}">${card.id}</h1>
+            <h1 class="actualID" data-actual-id="${card.id}" style="display: none;">${card.id}</h1>
             <h5>Term</h5>
           </div>
           <div class="row">
